@@ -158,19 +158,44 @@ body.light-theme {
     border: 1px solid #e2e8f0;
   }
 
+  & .modal-backdrop {
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  & .modal-header h2 {
+    color: var(--text-primary);
+  }
+
+  & .modal-badge {
+    background: rgba(2, 132, 199, 0.1);
+  }
+
+  & .meta-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+  }
+
+  & .card-inner,
+  & .modal-chart-wrapper {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+  }
+
   & .modal-headlines li {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-left: 3px solid var(--accent-blue);
+    color: var(--text-primary);
   }
 
-  & .modal-close {
+  & .modal-close-btn {
     background: #e2e8f0;
     color: var(--text-primary);
   }
 
-  & .modal-close:hover {
+  & .modal-close-btn:hover {
     background: #cbd5e1;
+    color: var(--text-primary);
   }
 }
 
@@ -2838,9 +2863,17 @@ body.light-theme .omnibar-company-header .ticker-symbol-badge {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-.hr-card.risk-high   { border-left-color: var(--risk-high); }
-.hr-card.risk-medium { border-left-color: var(--risk-medium); }
-.hr-card.risk-low    { border-left-color: var(--risk-low); }
+.hr-card.risk-high {
+  border-left-color: var(--risk-high);
+}
+
+.hr-card.risk-medium {
+  border-left-color: var(--risk-medium);
+}
+
+.hr-card.risk-low {
+  border-left-color: var(--risk-low);
+}
 
 .hr-rank {
   position: absolute;
@@ -2915,8 +2948,15 @@ body.light-theme .omnibar-company-header .ticker-symbol-badge {
 }
 
 @keyframes hr-skel-pulse {
-  0%, 100% { opacity: 0.4; }
-  50%       { opacity: 0.9; }
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
 }
 
 /* ── 3D Legend ── */

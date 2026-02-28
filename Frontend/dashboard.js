@@ -1267,14 +1267,17 @@ async function openNarrativeModal(id) {
 
   if (modalChart) modalChart.destroy();
   const ctx = document.getElementById("modal-chart").getContext("2d");
+  const isLightMode = document.body.classList.contains("light-theme");
+  const gridColor = isLightMode ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.05)";
+  const tickColor = isLightMode ? "#64748b" : "#8b949e";
   modalChart = new Chart(ctx, {
     type: "line", data: {
       labels: data.surprise_series.map(p => new Date(p.timestamp * 1000).toLocaleTimeString()),
       datasets: [
         { label: "Surprise", data: data.surprise_series.map(p => p.value), borderColor: "#f43f5e", tension: 0.3, borderWidth: 2, pointRadius: 3 },
-        { label: "Impact", data: data.impact_series.map(p => p.value), borderColor: "rgba(0, 240, 255, 0.6)", tension: 0.3, borderWidth: 2, pointRadius: 3 }
+        { label: "Impact", data: data.impact_series.map(p => p.value), borderColor: isLightMode ? "#0284c7" : "rgba(0, 240, 255, 0.6)", tension: 0.3, borderWidth: 2, pointRadius: 3 }
       ]
-    }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 1, grid: { color: "rgba(255,255,255,0.05)" }, ticks: { color: "#8b949e" } }, x: { display: false } } }
+    }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: tickColor } } }, scales: { y: { min: 0, max: 1, grid: { color: gridColor }, ticks: { color: tickColor } }, x: { display: false } } }
   });
   document.getElementById("narrative-modal").classList.remove("hidden");
 }
@@ -1875,7 +1878,7 @@ function _buildHighRiskCards(results) {
       if (narrs.length === 0) return null;
       const top = narrs.reduce((best, n) => {
         return (n.model_risk ?? 0) * (n.similarity ?? 0) >
-               (best.model_risk ?? 0) * (best.similarity ?? 0) ? n : best;
+          (best.model_risk ?? 0) * (best.similarity ?? 0) ? n : best;
       });
       return {
         symbol: r.ticker,
@@ -1913,11 +1916,11 @@ function renderHighRiskGrid(cards) {
   if (!grid) return;
 
   grid.innerHTML = cards.map((c, i) => {
-    const cls   = c.composite_risk >= 0.66 ? "risk-high" : c.composite_risk >= 0.33 ? "risk-medium" : "risk-low";
+    const cls = c.composite_risk >= 0.66 ? "risk-high" : c.composite_risk >= 0.33 ? "risk-medium" : "risk-low";
     const color = c.composite_risk >= 0.66 ? "var(--risk-high)" : c.composite_risk >= 0.33 ? "var(--risk-medium)" : "var(--risk-low)";
-    const pct   = (c.composite_risk * 100).toFixed(0);
+    const pct = (c.composite_risk * 100).toFixed(0);
     const shortCompany = c.company_name.length > 22 ? c.company_name.slice(0, 20) + "…" : c.company_name;
-    const shortNarr    = c.top_narrative.length > 26 ? c.top_narrative.slice(0, 24) + "…" : c.top_narrative;
+    const shortNarr = c.top_narrative.length > 26 ? c.top_narrative.slice(0, 24) + "…" : c.top_narrative;
     return `
       <div class="hr-card ${cls}" data-symbol="${escapeHtml(c.symbol)}" title="Click to open full analysis">
         <span class="hr-rank">#${i + 1}</span>
