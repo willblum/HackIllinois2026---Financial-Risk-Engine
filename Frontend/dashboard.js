@@ -145,7 +145,10 @@ function trendIcon(trend) {
 }
 
 async function refreshNarratives() {
-  const sortBy = document.getElementById("sort-select").value;
+  // Get value from custom dropdown instead of select element
+  const selectedOption = document.querySelector(".dropdown-option.selected");
+  const sortBy = selectedOption ? selectedOption.dataset.value : "risk";
+
   const data = await fetchJSON(`/narratives?active_only=true&sort_by=${sortBy}&limit=50`);
   const narratives = data.narratives ?? [];
 
@@ -554,7 +557,38 @@ async function openNarrativeModal(id) {
 document.getElementById("modal-close").addEventListener("click", () => document.getElementById("narrative-modal").classList.add("hidden"));
 document.getElementById("modal-backdrop").addEventListener("click", () => document.getElementById("narrative-modal").classList.add("hidden"));
 document.addEventListener("keydown", e => { if (e.key === "Escape") document.getElementById("narrative-modal").classList.add("hidden"); });
-document.getElementById("sort-select").addEventListener("change", refreshNarratives);
+
+// Custom Dropdown Logic
+const dropdownHeader = document.querySelector(".dropdown-header");
+const dropdownList = document.querySelector(".dropdown-list");
+const dropdownOptions = document.querySelectorAll(".dropdown-option");
+const sortSelectedText = document.getElementById("sort-selected-text");
+const sortDropdownBox = document.getElementById("sort-dropdown");
+
+dropdownHeader.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdownList.classList.toggle("hidden");
+  sortDropdownBox.classList.toggle("open");
+});
+
+dropdownOptions.forEach(option => {
+  option.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdownOptions.forEach(opt => opt.classList.remove("selected"));
+    option.classList.add("selected");
+    sortSelectedText.textContent = option.textContent;
+    dropdownList.classList.add("hidden");
+    sortDropdownBox.classList.remove("open");
+    refreshNarratives();
+  });
+});
+
+document.addEventListener("click", () => {
+  if (!dropdownList.classList.contains("hidden")) {
+    dropdownList.classList.add("hidden");
+    sortDropdownBox.classList.remove("open");
+  }
+});
 
 async function refreshDashboard() {
   const [riskData, pipelineData] = await Promise.all([fetchJSON("/risk"), fetchJSON("/pipeline/stats")]);
