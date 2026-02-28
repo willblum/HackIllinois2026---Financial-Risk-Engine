@@ -207,7 +207,7 @@ def get_pipeline_stats():
     counted here — use the response bodies from those endpoints instead.
     """
     narratives = vector_store.get_all_narratives()
-    active = [n for n in narratives if n.is_active]
+    active = [n for n in narratives if n.model_risk is not None and n.model_risk > 0.1]
 
     total_events = sum(n.event_count for n in narratives)
 

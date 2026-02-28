@@ -3,11 +3,11 @@ from typing import Optional
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(env_file=("../.env", ".env"), extra="ignore")
 
     # Modal
     modal_app_name: str = "model-risk-llm"   # must match APP_NAME in modal_app.py
-
+    
     # ChromaDB
     chroma_persist_dir: str = "./chroma_db"
     chroma_collection: str = "narratives"

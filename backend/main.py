@@ -1,9 +1,12 @@
 import asyncio
 import json
+from pathlib import Path
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
+from starlette.responses import FileResponse
 from api.routes import ingest, narratives, risk
 from db import vector_store
 from core.config import settings
@@ -111,3 +114,11 @@ async def events_stream():
             "X-Accel-Buffering": "no",
         },
     )
+
+
+# Serve the Frontend directory as static files (MUST be last — catch-all)
+frontend_dir = Path(__file__).resolve().parent.parent / "Frontend"
+if frontend_dir.exists():
+    app.mount("/", StaticFiles(directory=str(frontend_dir), html=True), name="frontend")
+
+
