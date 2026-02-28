@@ -85,15 +85,28 @@
       </div>
     </section>
 
-    <!-- ── ROW 1: 24h Risk Chart ── -->
-    <section id="chart-panel" class="card glass-panel">
-      <div class="card-header">
-        <h2><i class="ph ph-chart-line-up"></i> 24h Risk History</h2>
-        <div class="chart-actions">
-          <button class="icon-btn"><i class="ph ph-arrows-out"></i></button>
+    <!-- ── ROW 1: Risk Chart ── -->
+    <section id="chart-panel" class="card glass-panel transition-panel">
+      <div class="card-header split">
+        <h2><i class="ph ph-chart-line-up"></i> <span id="chart-title-text">24h Risk History</span></h2>
+        <div class="chart-controls">
+          <div class="time-range-toggles">
+            <button class="time-btn active" data-range="1d">1D</button>
+            <button class="time-btn" data-range="1m">1M</button>
+            <button class="time-btn" data-range="ytd">YTD</button>
+          </div>
+          <div class="chart-actions">
+            <button class="icon-btn page-btn" id="chart-prev" title="Previous Period"><i
+                class="ph-bold ph-caret-left"></i></button>
+            <button class="icon-btn page-btn" id="chart-next" title="Next Period" disabled><i
+                class="ph-bold ph-caret-right"></i></button>
+            <div class="divider"></div>
+            <button class="icon-btn" id="chart-expand-btn" title="Expand Graph"><i
+                class="ph ph-arrows-out"></i></button>
+          </div>
         </div>
       </div>
-      <div class="chart-wrapper">
+      <div class="chart-wrapper" id="main-chart-wrapper">
         <canvas id="risk-chart"></canvas>
       </div>
     </section>

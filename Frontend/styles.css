@@ -406,10 +406,98 @@ h3 {
 }
 
 /* ── Panel: Chart ── */
+.chart-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.time-range-toggles {
+  display: flex;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-sm);
+  padding: 0.15rem;
+  overflow: hidden;
+}
+
+.time-btn {
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 4px;
+}
+
+.time-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.time-btn.active {
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.1);
+}
+
+.chart-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.icon-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: var(--panel-border);
+  margin: 0 0.25rem;
+}
+
 .chart-wrapper {
   position: relative;
   width: 100%;
   height: 220px;
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Expanded Chart State */
+.transition-panel.expanded {
+  grid-column: 1 / -1 !important;
+  grid-row: span 2 !important;
+  z-index: 10;
+}
+
+.transition-panel.expanded .chart-wrapper {
+  height: 480px;
 }
 
 /* ── Panel: Pipeline Stats ── */

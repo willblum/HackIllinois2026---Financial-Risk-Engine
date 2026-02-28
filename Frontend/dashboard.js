@@ -191,18 +191,44 @@ async function refreshNarratives() {
 // SECTION 4 — Charts
 // ============================================================
 
+let currentChartRange = "1d";
+let chartOffset = 0;
+
 async function updateRiskChart() {
-  const data = await fetchJSON("/risk/history?window=24&resolution=100");
-  const history = data.history ?? [];
+  // Mock logic to handle ranges and offsets
+  let windowSize = 24;
+  if (currentChartRange === "1m") windowSize = 24 * 30;
+  if (currentChartRange === "ytd") windowSize = 24 * 90; // Approx 3 months
+
+  // Create mock history based on range
+  const history = Array.from({ length: 24 }, (_, i) => {
+    let base = 0.5;
+    if (currentChartRange === "1m") base = 0.4;
+    if (currentChartRange === "ytd") base = 0.3;
+    // Add offset modification to make pages look different
+    const pointRisk = Math.max(0, Math.min(1, base + Math.random() * 0.4 + (chartOffset * 0.05)));
+
+    return {
+      timestamp: Date.now() / 1000 - (24 - i) * (windowSize / 24) * 3600 - (chartOffset * windowSize * 3600),
+      model_risk_index: pointRisk
+    };
+  });
+
   const ctx = document.getElementById("risk-chart").getContext("2d");
 
-  const labels = history.map(p => new Date(p.timestamp * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+  const labels = history.map(p => {
+    const d = new Date(p.timestamp * 1000);
+    if (currentChartRange === "1d") return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleDateString([], { month: "short", day: "numeric" });
+  });
+
   const values = history.map(p => p.model_risk_index);
+  const avgValue = values.reduce((a, b) => a + b, 0) / values.length;
+  const avgData = Array(values.length).fill(avgValue);
 
   if (!riskChart) {
-    // Create animated cyber gradient
     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, "rgba(239, 68, 68, 0.4)"); // high risk red
+    gradient.addColorStop(0, "rgba(239, 68, 68, 0.4)");
     gradient.addColorStop(0.5, "rgba(245, 158, 11, 0.1)");
     gradient.addColorStop(1, "rgba(16, 185, 129, 0.0)");
 
@@ -210,20 +236,35 @@ async function updateRiskChart() {
       type: "line",
       data: {
         labels,
-        datasets: [{
-          label: "Risk Index",
-          data: values,
-          borderColor: "#00f0ff", // Neon cyan line
-          backgroundColor: gradient,
-          borderWidth: 2,
-          pointBackgroundColor: "#050811",
-          pointBorderColor: "#00f0ff",
-          pointBorderWidth: 2,
-          pointRadius: 0,
-          pointHoverRadius: 6,
-          fill: true,
-          tension: 0.4 // Smooth curves
-        }]
+        datasets: [
+          {
+            label: "Risk Index",
+            data: values,
+            borderColor: "#00f0ff",
+            backgroundColor: gradient,
+            borderWidth: 2,
+            pointBackgroundColor: "#050811",
+            pointBorderColor: "#00f0ff",
+            pointBorderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 6,
+            fill: true,
+            tension: 0.4,
+            order: 2
+          },
+          {
+            label: "Average",
+            data: avgData,
+            borderColor: "rgba(255, 255, 255, 0.2)", // Subtle white line
+            borderWidth: 1.5,
+            borderDash: [5, 5], // Dashed line
+            pointRadius: 0,
+            pointHoverRadius: 0,
+            fill: false,
+            tension: 0,
+            order: 1
+          }
+        ]
       },
       options: {
         responsive: true, maintainAspectRatio: false,
@@ -238,9 +279,52 @@ async function updateRiskChart() {
   } else {
     riskChart.data.labels = labels;
     riskChart.data.datasets[0].data = values;
+    riskChart.data.datasets[1].data = avgData;
     riskChart.update("none");
   }
 }
+
+// Chart Controls Events
+document.querySelectorAll(".time-btn").forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    document.querySelectorAll(".time-btn").forEach(b => b.classList.remove("active"));
+    e.target.classList.add("active");
+    currentChartRange = e.target.dataset.range;
+    chartOffset = 0; // Reset offset on range change
+    document.getElementById("chart-title-text").textContent = currentChartRange === "1d" ? "24h Risk History" : currentChartRange === "1m" ? "1M Risk History" : "YTD Risk History";
+    document.getElementById("chart-next").disabled = true;
+    updateRiskChart();
+  });
+});
+
+document.getElementById("chart-prev").addEventListener("click", () => {
+  chartOffset++;
+  document.getElementById("chart-next").disabled = false;
+  updateRiskChart();
+});
+
+document.getElementById("chart-next").addEventListener("click", () => {
+  if (chartOffset > 0) {
+    chartOffset--;
+    if (chartOffset === 0) document.getElementById("chart-next").disabled = true;
+    updateRiskChart();
+  }
+});
+
+document.getElementById("chart-expand-btn").addEventListener("click", (e) => {
+  const panel = document.getElementById("chart-panel");
+  panel.classList.toggle("expanded");
+  const icon = e.currentTarget.querySelector("i");
+  if (panel.classList.contains("expanded")) {
+    icon.className = "ph ph-arrows-in";
+    e.currentTarget.title = "Collapse Graph";
+  } else {
+    icon.className = "ph ph-arrows-out";
+    e.currentTarget.title = "Expand Graph";
+  }
+  // Force chart resize
+  setTimeout(() => riskChart && riskChart.resize(), 50);
+});
 
 // ============================================================
 // SECTION 5 — SSE Live Feed & Mock Feed
@@ -308,26 +392,26 @@ async function runSearch() {
 
   resDiv.innerHTML = `<div class="spinner"></div>`;
   const data = await postJSON("/narratives/search", { query, n_results: 5 });
-  
+
   let results = [];
   if (isMockMode) {
     // Filter mock data by text match
-    const matches = MOCK_DATA.narratives.filter(n => 
-      n.name.toLowerCase().includes(query) || 
+    const matches = MOCK_DATA.narratives.filter(n =>
+      n.name.toLowerCase().includes(query) ||
       n.description.toLowerCase().includes(query)
     );
-    
+
     // Sort relevance arbitrarily for mockup
-    results = matches.map((n, i) => ({ 
-      narrative: n, 
-      similarity: 0.95 - (i * 0.05) 
+    results = matches.map((n, i) => ({
+      narrative: n,
+      similarity: 0.95 - (i * 0.05)
     }));
-    
+
     // Fallback if no exact text match (just return top 2 to simulate fuzzy finding)
     if (results.length === 0) {
-      results = MOCK_DATA.narratives.slice(0, 2).map((n, i) => ({ 
-        narrative: n, 
-        similarity: 0.65 - (i * 0.10) 
+      results = MOCK_DATA.narratives.slice(0, 2).map((n, i) => ({
+        narrative: n,
+        similarity: 0.65 - (i * 0.10)
       }));
     }
   } else {
