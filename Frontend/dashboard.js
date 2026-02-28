@@ -270,12 +270,27 @@ async function updateRiskChart() {
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        interaction: { mode: "index", intersect: false },
+        interaction: { mode: "nearest", intersect: true, axis: 'x' },
         scales: {
           y: { min: 0, max: 1, grid: { color: "rgba(255,255,255,0.05)" }, ticks: { color: "#8b949e", font: { family: "'JetBrains Mono'" } } },
           x: { grid: { display: false }, ticks: { color: "#8b949e", maxTicksLimit: 6, font: { family: "'JetBrains Mono'" } } }
         },
-        plugins: { legend: { display: false }, tooltip: { backgroundColor: "rgba(16,22,38,0.9)", titleFont: { family: "'Outfit'" }, bodyFont: { family: "'JetBrains Mono'" }, borderColor: "rgba(0,240,255,0.3)", borderWidth: 1 } }
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: "rgba(16,22,38,0.9)",
+            titleFont: { family: "'Outfit'" },
+            bodyFont: { family: "'JetBrains Mono'" },
+            borderColor: "rgba(0,240,255,0.3)",
+            borderWidth: 1,
+            callbacks: {
+              label: function (context) {
+                if (context.dataset.label === 'Average') return `Average: ${context.parsed.y.toFixed(2)}`;
+                return `Risk: ${context.parsed.y.toFixed(2)}`;
+              }
+            }
+          }
+        }
       }
     });
   } else {
