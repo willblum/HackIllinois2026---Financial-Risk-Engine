@@ -557,8 +557,8 @@ async function openNarrativeModal(id) {
     type: "line", data: {
       labels: data.surprise_series.map(p => new Date(p.timestamp * 1000).toLocaleTimeString()),
       datasets: [
-        { label: "Surprise", data: data.surprise_series.map(p => p.value), borderColor: "#f43f5e", tension: 0.3 },
-        { label: "Impact", data: data.impact_series.map(p => p.value), borderColor: "#3b82f6", tension: 0.3 }
+        { label: "Surprise", data: data.surprise_series.map(p => p.value), borderColor: "#f43f5e", tension: 0.3, borderWidth: 2, pointRadius: 3 },
+        { label: "Impact", data: data.impact_series.map(p => p.value), borderColor: "rgba(0, 240, 255, 0.6)", tension: 0.3, borderWidth: 2, pointRadius: 3 }
       ]
     }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 1, grid: { color: "rgba(255,255,255,0.05)" }, ticks: { color: "#8b949e" } }, x: { display: false } } }
   });
