@@ -1,6 +1,0 @@
-modal
-pyright
-numpy
-pandas
-fastapi
-asyncio

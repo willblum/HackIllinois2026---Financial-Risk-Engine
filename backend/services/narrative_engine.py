@@ -20,7 +20,7 @@ from core.config import settings
 from db import vector_store
 from models.narrative import NarrativeDirection
 from services.embedder import embed_text
-from services.cerebras_client import score_story, label_narrative
+from services.llm_client import score_story, label_narrative
 
 
 NEW_NARRATIVE_THRESHOLD: float = settings.new_narrative_threshold

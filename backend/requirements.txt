@@ -1,6 +1,9 @@
 fastapi
 uvicorn[standard]
 pydantic-settings
-cerebras-cloud-sdk
+modal
 chromadb
 sentence-transformers
+aiohttp
+feedparser
+praw
