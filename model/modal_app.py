@@ -7,6 +7,8 @@ Setup (one-time)
     modal setup   # authenticate
 
 Deploy
+
+
 ------
     modal deploy model/modal_app.py
 

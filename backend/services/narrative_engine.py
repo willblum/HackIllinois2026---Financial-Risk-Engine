@@ -53,41 +53,151 @@ _MED_IMPACT: frozenset[str] = frozenset([
     "disruption", "shortage", "interest rate", "yield", "spread",
 ])
 
+# Explicit linguistic surprise signals — the author themselves flagged it as unexpected
+_SHOCK_LANGUAGE: frozenset[str] = frozenset([
+    "unexpected", "unexpectedly",
+    "surprise", "surprised", "surprises", "surprising",
+    "shocking", "shocked", "shockingly",
+    "sudden", "suddenly",
+    "unprecedented",
+    "never before",
+    "first time in",
+    "reversal", "u-turn",
+    "emergency",
+    "snap decision",
+    "flash crash",
+    "panic",
+    "abrupt", "abruptly",
+])
 
-def _heuristic_score(headline: str, body: str, distance: float) -> dict:
+# Superlative / record language — bigger-than-expected magnitude
+_MAGNITUDE_LANGUAGE: frozenset[str] = frozenset([
+    "record", "all-time", "all time",
+    "biggest", "largest", "worst", "highest", "lowest",
+    "most since", "highest since", "lowest since",
+    "decade-high", "decade-low", "decade high", "decade low",
+    "multi-year", "multiyear",
+    "40-year", "50-year", "30-year", "100-year",
+    "historic",
+    "fastest", "sharpest", "steepest",
+])
+
+# Directional tone for inversion detection
+_SURGE_TONE: frozenset[str] = frozenset([
+    "surges", "surge", "soars", "soar", "rallies", "rally",
+    "jumps", "jump", "spikes", "spike", "rises", "rise",
+    "beats", "beat", "record high", "boom",
+])
+_DROP_TONE: frozenset[str] = frozenset([
+    "falls", "fall", "drops", "drop", "declines", "decline",
+    "slumps", "slump", "plunges", "plunge", "tumbles", "tumble",
+    "sinks", "sink", "crashes", "crash", "misses", "miss",
+    "selloff", "sell-off", "collapses", "collapse",
+])
+
+
+def _heuristic_score(
+    headline: str,
+    body: str,
+    distance: float,
+    narrative: NarrativeDirection | None = None,
+) -> dict:
     """
-    Zero-latency scorer producing well-spread values across [0, 1].
+    Multi-signal surprise scorer.  Zero latency, no network calls.
 
-    Surprise — two-segment scale so both updates and creates fill their
-    natural ranges instead of all cramming against 1.0:
+    Surprise is built from five independent signals:
 
-      Updates (distance < threshold): mapped to [0.02, 0.65]
-        A story very close to the narrative centroid is routine (low surprise).
-        A story right at the edge of the cluster is genuinely surprising (0.65).
+      1. Distance base  — how far the story sits from the nearest narrative
+         centroid.  Two-segment scale keeps updates and creates in natural
+         sub-ranges, leaving headroom for the correction signals below.
+           Updates  (d < threshold): [0.02, 0.60]
+           Creates  (d >= threshold): [0.60, 0.85]
 
-      Creates (distance >= threshold): mapped to [0.65, 1.0]
-        The further a story sits from every existing narrative, the more novel
-        it is.  inf distance (empty DB, first story) is capped at ~0.94.
+      2. Shock language — explicit linguistic markers that the author flagged
+         as unexpected ("unprecedented", "sudden", "surprise", "reversal", …).
+         Each hit adds +0.08, capped at +0.20.
 
-    Impact — keyword count with diminishing returns and a near-zero floor.
-    Range: ~0.04 (no signal words) → 1.0 (multiple high-severity hits).
+      3. Magnitude language — superlatives and records signal a bigger-than-
+         expected event ("record", "all-time", "40-year high", "fastest ever").
+         Each hit adds +0.06, capped at +0.15.
+
+      4. Staleness bonus — a story that re-activates a dormant narrative is
+         inherently more surprising than one arriving in an active feed.
+         +0.03 (>12h)  →  +0.07 (>48h)  →  +0.12 (>7 days).
+
+      5. Inversion bonus — if the new story's directional tone contradicts the
+         narrative's established trend (surge story into a dropping narrative,
+         or crash story into a calm one), add +0.08–0.10.
+
+      Maturity dampening: high event_count narratives (well-understood by
+      the market) get their distance base dampened by up to 25%.  Explicit
+      shock/magnitude signals are NOT dampened — a record event is still
+      record regardless of how long the narrative has been tracked.
+
+    Impact — unchanged keyword-count scorer with diminishing returns.
+    Range: ~0.04 (no signal) → 1.0 (multiple high-severity hits).
     """
     T = NEW_NARRATIVE_THRESHOLD
-
-    if distance < T:
-        # Update segment: [0, T] → [0.02, 0.65]
-        raw = distance / max(T, 0.01)           # 0 → 0, approach-threshold → 1
-        surprise = round(max(0.02, 0.65 * (raw ** 0.65)), 3)
-    else:
-        # Create segment: [T, 2.0] → [0.65, 1.0]
-        effective = min(distance, 2.0) if distance < float("inf") else 1.5
-        raw = (effective - T) / max(2.0 - T, 0.01)   # 0 at threshold, 1 at max
-        surprise = round(min(1.0, 0.65 + 0.35 * (raw ** 0.5)), 3)
-
     text = (headline + " " + body[:600]).lower()
+
+    # ── 1. Distance base ─────────────────────────────────────────────────────
+    if distance < T:
+        raw = distance / max(T, 0.01)
+        base = 0.02 + 0.58 * (raw ** 0.65)          # [0.02, 0.60]
+    else:
+        effective = min(distance if distance < float("inf") else 1.5, 2.0)
+        raw = (effective - T) / max(2.0 - T, 0.01)
+        base = 0.60 + 0.25 * (raw ** 0.5)           # [0.60, 0.85]
+
+    # ── 2. Shock language ────────────────────────────────────────────────────
+    shock_hits = sum(1 for kw in _SHOCK_LANGUAGE if kw in text)
+    shock_boost = min(0.20, shock_hits * 0.08)
+
+    # ── 3. Magnitude / record language ───────────────────────────────────────
+    mag_hits = sum(1 for kw in _MAGNITUDE_LANGUAGE if kw in text)
+    mag_boost = min(0.15, mag_hits * 0.06)
+
+    # ── 4. Staleness bonus ───────────────────────────────────────────────────
+    stale_boost = 0.0
+    if narrative is not None:
+        age_hours = (time.time() - narrative.last_updated) / 3600.0
+        if age_hours > 168:    # > 7 days dormant
+            stale_boost = 0.12
+        elif age_hours > 48:   # > 2 days
+            stale_boost = 0.07
+        elif age_hours > 12:   # > 12 hours
+            stale_boost = 0.03
+
+    # ── 5. Tone inversion ────────────────────────────────────────────────────
+    inversion_boost = 0.0
+    if narrative is not None and narrative.current_surprise is not None:
+        established = narrative.current_surprise   # EMA over last 50 points
+        story_surge = any(kw in text for kw in _SURGE_TONE)
+        story_drop  = any(kw in text for kw in _DROP_TONE)
+        # Calm narrative suddenly re-escalates with crisis/shock tone
+        if established < 0.35 and story_drop and sum(1 for kw in _HIGH_IMPACT if kw in text) >= 1:
+            inversion_boost = 0.10
+        # High-tension narrative suddenly shows a resolution/drop signal
+        elif established > 0.65 and story_surge and not story_drop:
+            inversion_boost = 0.08
+
+    # ── Maturity dampening on the distance base only ─────────────────────────
+    maturity = 1.0
+    if narrative is not None:
+        n = narrative.event_count
+        if n > 100:
+            maturity = 0.75
+        elif n > 50:
+            maturity = 0.88
+        elif n > 20:
+            maturity = 0.94
+
+    surprise_raw = (base * maturity) + shock_boost + mag_boost + stale_boost + inversion_boost
+    surprise = round(min(1.0, max(0.02, surprise_raw)), 3)
+
+    # ── Impact (unchanged) ───────────────────────────────────────────────────
     high_hits = sum(1 for kw in _HIGH_IMPACT if kw in text)
     med_hits  = sum(1 for kw in _MED_IMPACT  if kw in text)
-
     impact_from_high = min(0.75, high_hits * 0.30)
     impact_from_med  = min(0.25, med_hits  * 0.04)
     impact = round(max(0.04, impact_from_high + impact_from_med), 3)
@@ -134,6 +244,7 @@ def route_with_embedding(headline: str, body: str, embedding: list[float]) -> di
 
     if route_to_existing:
         action = "updated"
+        assert best_narrative is not None  # guaranteed by route_to_existing check
         narrative = _update_narrative(best_narrative, embedding, headline, full_text, best_distance)
     else:
         action = "created"
@@ -163,8 +274,8 @@ def _update_narrative(
     full_text: str,
     distance: float = 0.2,
 ) -> NarrativeDirection:
-    # Heuristic scorer — instant, no network call
-    scores = _heuristic_score(headline, full_text, distance)
+    # Heuristic scorer — passes narrative for staleness/inversion/maturity signals
+    scores = _heuristic_score(headline, full_text, distance, narrative=narrative)
 
     now = time.time()
     # Capture event_count BEFORE add_headline increments it (needed for blend)
