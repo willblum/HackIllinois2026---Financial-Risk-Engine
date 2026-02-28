@@ -179,6 +179,30 @@ body.light-theme {
   color: #fff;
 }
 
+/* ── Scrollbar (global dark) ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-primary);
@@ -1199,13 +1223,7 @@ textarea {
 }
 
 .glow-border::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-  border-radius: var(--radius-lg);
-  z-index: -1;
-  opacity: 0.5;
+  display: none;
 }
 
 .modal-content {
@@ -1217,6 +1235,8 @@ textarea {
   border-radius: var(--radius-lg);
   overflow-y: auto;
   animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #0a0f1c;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 @keyframes modalPop {
@@ -1298,10 +1318,10 @@ textarea {
 }
 
 .meta-card {
-  background: rgba(0, 0, 0, 0.2);
+  background: #0d1221;
   padding: 1.2rem;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .meta-card-label {
@@ -1319,10 +1339,14 @@ textarea {
 }
 
 .card-inner {
-  background: rgba(0, 0, 0, 0.3);
+  background: #0d1221;
   border-radius: var(--radius-md);
   padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.modal-chart-wrapper {
+  background: #0d1221;
 }
 
 .modal-footer h3 {
@@ -1345,8 +1369,8 @@ textarea {
 
 .modal-headlines li {
   padding: 0.8rem 1rem;
-  background: rgba(255, 255, 255, 0.02);
-  border-left: 3px solid var(--accent-blue);
+  background: rgba(0, 0, 0, 0.2);
+  border-left: 3px solid rgba(0, 240, 255, 0.3);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: 0.9rem;
 }
