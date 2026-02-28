@@ -20,6 +20,10 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+  <!-- Three.js for 3D vector space visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -66,9 +70,8 @@
     <div class="omnibar-inner">
       <div class="omnibar-input-row">
         <i class="ph ph-chart-line-up omnibar-icon"></i>
-        <input id="search-input" type="text"
-          placeholder="Search by ticker — AAPL, NVDA, JPM, XOM..."
-          autocomplete="off" spellcheck="false" />
+        <input id="search-input" type="text" placeholder="Search by ticker — AAPL, NVDA, JPM, XOM..." autocomplete="off"
+          spellcheck="false" />
         <kbd class="omnibar-kbd">Enter</kbd>
       </div>
       <div id="search-results" class="omnibar-results custom-scrollbar">
@@ -242,8 +245,8 @@
           <div class="ticker-search-bar" id="ticker-search-bar">
             <div class="ticker-input-group">
               <i class="ph ph-trend-up ticker-input-icon"></i>
-              <input id="ticker-input" type="text" placeholder="Filter by ticker (e.g. AAPL)"
-                autocomplete="off" maxlength="10" spellcheck="false" />
+              <input id="ticker-input" type="text" placeholder="Filter by ticker (e.g. AAPL)" autocomplete="off"
+                maxlength="10" spellcheck="false" />
               <button id="ticker-search-btn" class="ticker-go-btn" title="Search ticker">
                 <i class="ph-bold ph-magnifying-glass"></i>
               </button>

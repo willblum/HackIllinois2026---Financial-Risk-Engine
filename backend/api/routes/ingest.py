@@ -93,9 +93,8 @@ class ScrapeRequest(BaseModel):
     """
     lookback_minutes: int = Field(default=60, ge=1, le=10080)
     max_per_source: int = Field(default=50, ge=1, le=500)
-    sources: list[str] = Field(default=["newsapi", "twitter"])
+    sources: list[str] = Field(default=["newsapi", "rss"])
     news_query: Optional[str] = None
-    twitter_query: Optional[str] = None
     dry_run: bool = False
     buffer: bool = False
 
@@ -139,13 +138,13 @@ async def scrape_and_ingest(req: ScrapeRequest):
     Requires scraper service to be available.
     """
     try:
-        from services.scraper import scrape, ScrapeParams, cache_size, scrape_newsapi, scrape_twitter
+        from services.scraper import scrape, ScrapeParams, cache_size, scrape_newsapi
         from services.story_buffer import buffer as story_buffer
     except ImportError:
         from fastapi import HTTPException
         raise HTTPException(
             status_code=501,
-            detail="Scraper service not available. Install newsapi-python and tweepy."
+            detail="Scraper service not available. Install newsapi-python and feedparser."
         )
 
     loop = asyncio.get_event_loop()
@@ -158,8 +157,6 @@ async def scrape_and_ingest(req: ScrapeRequest):
     )
     if req.news_query:
         params.news_query = req.news_query
-    if req.twitter_query:
-        params.twitter_query = req.twitter_query
 
     per_source_raw: dict[str, int] = {}
     start = time.time()
@@ -169,9 +166,6 @@ async def scrape_and_ingest(req: ScrapeRequest):
     if "newsapi" in req.sources:
         raw_news = await loop.run_in_executor(None, lambda: scrape_newsapi(params))
         per_source_raw["newsapi"] = len(raw_news)
-    if "twitter" in req.sources:
-        raw_twitter = await loop.run_in_executor(None, lambda: scrape_twitter(params))
-        per_source_raw["twitter"] = len(raw_twitter)
 
     total_raw = sum(per_source_raw.values())
     duplicates_skipped = total_raw - len(stories)

@@ -62,21 +62,16 @@ class ScrapeParams:
     max_per_source : int
         Maximum number of items to fetch per source.
         NewsAPI caps at 100 per request on the free tier.
-        Twitter caps at 100 per request on the basic tier.
 
     Sources
     -------
     sources : list[str]
-        Which sources to pull from. Any subset of ["newsapi", "twitter"].
+        Which sources to pull from. Any subset of ["newsapi", "rss"].
 
     Query overrides
     ---------------
     news_query : str
         Override the default NewsAPI keyword query.
-    twitter_query : str
-        Override the default Twitter search query.
-        Must comply with Twitter v2 query syntax.
-        See: https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query
 
     Other
     -----
@@ -85,18 +80,12 @@ class ScrapeParams:
     """
     lookback_minutes: int = 60
     max_per_source: int = 50
-    sources: list[str] = field(default_factory=lambda: ["newsapi", "twitter"])
+    sources: list[str] = field(default_factory=lambda: ["newsapi", "rss"])
 
     news_query: str = (
         "economy OR inflation OR recession OR \"federal reserve\" OR \"interest rates\" "
         "OR \"stock market\" OR GDP OR \"trade war\" OR sanctions OR geopolitical "
         "OR \"supply chain\" OR \"central bank\" OR \"banking crisis\" OR \"credit risk\""
-    )
-
-    twitter_query: str = (
-        "(economy OR inflation OR recession OR \"federal reserve\" OR \"stock market\" "
-        "OR sanctions OR geopolitical OR \"banking crisis\" OR \"supply chain\" "
-        "OR \"credit risk\" OR \"rate hike\") -is:retweet lang:en"
     )
 
     dry_run: bool = False
@@ -349,69 +338,6 @@ def scrape_newsapi(params: ScrapeParams) -> list[RawStory]:
 # Twitter scraper
 # ---------------------------------------------------------------------------
 
-def scrape_twitter(params: ScrapeParams) -> list[RawStory]:
-    """
-    Fetch recent tweets from Twitter/X API v2.
-
-    Uses the recent search endpoint — covers the last 7 days max.
-    Requires TWITTER_BEARER_TOKEN (App-only auth, no user login needed).
-    """
-    try:
-        import tweepy
-    except ImportError:
-        logger.warning("tweepy not installed. Run: pip install tweepy")
-        return []
-
-    from core.config import settings
-    if not settings.twitter_bearer_token:
-        logger.warning("TWITTER_BEARER_TOKEN not set — skipping Twitter")
-        return []
-
-    client = tweepy.Client(
-        bearer_token=settings.twitter_bearer_token,
-        wait_on_rate_limit=False,
-    )
-
-    since = datetime.now(timezone.utc) - timedelta(minutes=params.lookback_minutes)
-    # Twitter API requires at least 10 results and at most 100 per request
-    max_results = max(10, min(params.max_per_source, 100))
-
-    try:
-        response = client.search_recent_tweets(
-            query=params.twitter_query,
-            max_results=max_results,
-            start_time=since,
-            tweet_fields=["created_at", "text", "author_id"],
-        )
-    except tweepy.errors.TweepyException as e:
-        logger.error(f"Twitter API request failed: {e}")
-        return []
-
-    stories = []
-    for tweet in response.data or []:
-        text = (tweet.text or "").strip()
-        if not text:
-            continue
-
-        published_at = time.time()
-        if tweet.created_at:
-            try:
-                published_at = tweet.created_at.timestamp()
-            except Exception:
-                pass
-
-        stories.append(RawStory(
-            headline=text[:280],   # tweet text is the headline; no separate body
-            body="",
-            source="twitter",
-            url=f"https://twitter.com/i/web/status/{tweet.id}",
-            published_at=published_at,
-        ))
-
-    logger.info(f"Twitter: fetched {len(stories)} tweets (lookback={params.lookback_minutes}m)")
-    return stories
-
-
 # ---------------------------------------------------------------------------
 # RSS feed scraper (no API key needed)
 # ---------------------------------------------------------------------------
@@ -504,8 +430,6 @@ def scrape(params: ScrapeParams) -> list[RawStory]:
 
     if "newsapi" in params.sources:
         raw.extend(scrape_newsapi(params))
-    if "twitter" in params.sources:
-        raw.extend(scrape_twitter(params))
     if "rss" in params.sources:
         raw.extend(scrape_rss(params))
 

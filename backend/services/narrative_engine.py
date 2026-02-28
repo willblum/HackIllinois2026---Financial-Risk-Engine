@@ -56,24 +56,43 @@ _MED_IMPACT: frozenset[str] = frozenset([
 
 def _heuristic_score(headline: str, body: str, distance: float) -> dict:
     """
-    Zero-latency surrogate for Cerebras score_story().
+    Zero-latency scorer producing well-spread values across [0, 1].
 
-    Surprise  = normalised cosine distance within the narrative cluster.
-                High distance → story is at the edge of the narrative → surprising.
-    Impact    = keyword frequency weighted sum, clamped to [0, 1].
+    Surprise — two-segment scale so both updates and creates fill their
+    natural ranges instead of all cramming against 1.0:
+
+      Updates (distance < threshold): mapped to [0.02, 0.65]
+        A story very close to the narrative centroid is routine (low surprise).
+        A story right at the edge of the cluster is genuinely surprising (0.65).
+
+      Creates (distance >= threshold): mapped to [0.65, 1.0]
+        The further a story sits from every existing narrative, the more novel
+        it is.  inf distance (empty DB, first story) is capped at ~0.94.
+
+    Impact — keyword count with diminishing returns and a near-zero floor.
+    Range: ~0.04 (no signal words) → 1.0 (multiple high-severity hits).
     """
-    surprise = min(1.0, max(0.05, distance / max(NEW_NARRATIVE_THRESHOLD, 0.01)))
+    T = NEW_NARRATIVE_THRESHOLD
+
+    if distance < T:
+        # Update segment: [0, T] → [0.02, 0.65]
+        raw = distance / max(T, 0.01)           # 0 → 0, approach-threshold → 1
+        surprise = round(max(0.02, 0.65 * (raw ** 0.65)), 3)
+    else:
+        # Create segment: [T, 2.0] → [0.65, 1.0]
+        effective = min(distance, 2.0) if distance < float("inf") else 1.5
+        raw = (effective - T) / max(2.0 - T, 0.01)   # 0 at threshold, 1 at max
+        surprise = round(min(1.0, 0.65 + 0.35 * (raw ** 0.5)), 3)
 
     text = (headline + " " + body[:600]).lower()
-    impact = 0.1
-    for kw in _HIGH_IMPACT:
-        if kw in text:
-            impact += 0.2
-    for kw in _MED_IMPACT:
-        if kw in text:
-            impact += 0.06
+    high_hits = sum(1 for kw in _HIGH_IMPACT if kw in text)
+    med_hits  = sum(1 for kw in _MED_IMPACT  if kw in text)
 
-    return {"surprise": round(surprise, 3), "impact": round(min(1.0, impact), 3)}
+    impact_from_high = min(0.75, high_hits * 0.30)
+    impact_from_med  = min(0.25, med_hits  * 0.04)
+    impact = round(max(0.04, impact_from_high + impact_from_med), 3)
+
+    return {"surprise": surprise, "impact": impact}
 
 
 # ---------------------------------------------------------------------------
@@ -118,7 +137,7 @@ def route_with_embedding(headline: str, body: str, embedding: list[float]) -> di
         narrative = _update_narrative(best_narrative, embedding, headline, full_text, best_distance)
     else:
         action = "created"
-        narrative = _create_narrative(embedding, headline, full_text)
+        narrative = _create_narrative(embedding, headline, full_text, best_distance)
 
     return {
         "action": action,
@@ -166,10 +185,10 @@ def _create_narrative(
     story_embedding: list[float],
     headline: str,
     full_text: str,
+    distance: float = float("inf"),
 ) -> NarrativeDirection:
     label = label_narrative(full_text)
-    # Heuristic scores for new narratives: distance = threshold (boundary case)
-    scores = _heuristic_score(headline, full_text, NEW_NARRATIVE_THRESHOLD)
+    scores = _heuristic_score(headline, full_text, distance)
 
     now = time.time()
     narrative = NarrativeDirection(

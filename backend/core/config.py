@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     poll_interval_seconds: int = 120          # scrape every 2 minutes
     pipeline_lookback_minutes: int = 30       # pull stories from last 30 min per poll
     pipeline_max_per_source: int = 100        # max items per RSS feed per poll
-    pipeline_sources: list[str] = ["rss", "newsapi", "twitter"]
+    pipeline_sources: list[str] = ["rss", "newsapi"]
 
     # Startup bulk ingest — pull historical RSS stories once on boot
     bulk_ingest_on_startup: bool = True
@@ -32,8 +32,6 @@ class Settings(BaseSettings):
     # NewsAPI  (newsapi.org — free tier: 100 req/day, 1-month lookback)
     newsapi_key: Optional[str] = None
 
-    # Twitter/X API v2  (developer.twitter.com — bearer token, app-only auth)
-    twitter_bearer_token: Optional[str] = None
 
 
 settings = Settings()

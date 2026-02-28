@@ -464,72 +464,72 @@ function initMockSSE() {
 
 // S&P 500 + major US-listed tickers (backend validates via yfinance for unlisted symbols)
 const VALID_TICKERS = {
-  AAPL:"Apple Inc.",ABBV:"AbbVie Inc.",ABT:"Abbott Laboratories",ACN:"Accenture plc",
-  ADBE:"Adobe Inc.",ADI:"Analog Devices",ADM:"Archer-Daniels-Midland",ADP:"Automatic Data Processing",
-  ADSK:"Autodesk Inc.",AEP:"American Electric Power",AFL:"Aflac Inc.",AIG:"American Intl Group",
-  AMAT:"Applied Materials",AMD:"Advanced Micro Devices",AMGN:"Amgen Inc.",AMP:"Ameriprise Financial",
-  AMZN:"Amazon.com Inc.",ANET:"Arista Networks",ANSS:"Ansys Inc.",AON:"Aon plc",
-  APD:"Air Products & Chemicals",APH:"Amphenol Corp.",AVGO:"Broadcom Inc.",AXP:"American Express",
-  BA:"Boeing Co.",BAC:"Bank of America",BAX:"Baxter International",BDX:"Becton Dickinson",
-  BK:"Bank of New York Mellon",BKNG:"Booking Holdings",BLK:"BlackRock Inc.",BMY:"Bristol-Myers Squibb",
-  "BRK.B":"Berkshire Hathaway",BSX:"Boston Scientific",C:"Citigroup Inc.",CAT:"Caterpillar Inc.",
-  CB:"Chubb Ltd.",CCI:"Crown Castle",CDNS:"Cadence Design Systems",CEG:"Constellation Energy",
-  CHTR:"Charter Communications",CI:"Cigna Group",CL:"Colgate-Palmolive",CMCSA:"Comcast Corp.",
-  CME:"CME Group",CMG:"Chipotle Mexican Grill",COP:"ConocoPhillips",COST:"Costco Wholesale",
-  CRM:"Salesforce Inc.",CSCO:"Cisco Systems",CTAS:"Cintas Corp.",CVS:"CVS Health",
-  CVX:"Chevron Corp.",D:"Dominion Energy",DD:"DuPont de Nemours",DE:"Deere & Co.",
-  DHR:"Danaher Corp.",DIS:"Walt Disney Co.",DUK:"Duke Energy",ECL:"Ecolab Inc.",
-  EMR:"Emerson Electric",EOG:"EOG Resources",ETN:"Eaton Corp.",EW:"Edwards Lifesciences",
-  EXC:"Exelon Corp.",F:"Ford Motor Co.",FANG:"Diamondback Energy",FCX:"Freeport-McMoRan",
-  FDX:"FedEx Corp.",FI:"Fiserv Inc.",GD:"General Dynamics",GE:"GE Aerospace",
-  GILD:"Gilead Sciences",GM:"General Motors",GOOG:"Alphabet Inc. (C)",GOOGL:"Alphabet Inc. (A)",
-  GPN:"Global Payments",GS:"Goldman Sachs",HAL:"Halliburton Co.",HD:"Home Depot",
-  HON:"Honeywell International",HUM:"Humana Inc.",IBM:"IBM Corp.",ICE:"Intercontinental Exchange",
-  IDXX:"IDEXX Laboratories",INTC:"Intel Corp.",INTU:"Intuit Inc.",ISRG:"Intuitive Surgical",
-  ITW:"Illinois Tool Works",JNJ:"Johnson & Johnson",JPM:"JPMorgan Chase",KHC:"Kraft Heinz Co.",
-  KLAC:"KLA Corp.",KO:"Coca-Cola Co.",LEN:"Lennar Corp.",LHX:"L3Harris Technologies",
-  LIN:"Linde plc",LLY:"Eli Lilly & Co.",LMT:"Lockheed Martin",LOW:"Lowe's Companies",
-  LRCX:"Lam Research",MA:"Mastercard Inc.",MAR:"Marriott International",MCD:"McDonald's Corp.",
-  MCHP:"Microchip Technology",MCK:"McKesson Corp.",MCO:"Moody's Corp.",MDLZ:"Mondelez Intl",
-  MDT:"Medtronic plc",MET:"MetLife Inc.",META:"Meta Platforms",MMM:"3M Co.",
-  MO:"Altria Group",MPC:"Marathon Petroleum",MRK:"Merck & Co.",MRNA:"Moderna Inc.",
-  MS:"Morgan Stanley",MSCI:"MSCI Inc.",MSFT:"Microsoft Corp.",MSI:"Motorola Solutions",
-  MU:"Micron Technology",NFLX:"Netflix Inc.",NKE:"Nike Inc.",NOC:"Northrop Grumman",
-  NOW:"ServiceNow Inc.",NSC:"Norfolk Southern",NVDA:"NVIDIA Corp.",ORCL:"Oracle Corp.",
-  OXY:"Occidental Petroleum",PANW:"Palo Alto Networks",PAYX:"Paychex Inc.",PEP:"PepsiCo Inc.",
-  PFE:"Pfizer Inc.",PG:"Procter & Gamble",PGR:"Progressive Corp.",PH:"Parker-Hannifin",
-  PLTR:"Palantir Technologies",PM:"Philip Morris Intl",PNC:"PNC Financial",PSA:"Public Storage",
-  PSX:"Phillips 66",PYPL:"PayPal Holdings",QCOM:"Qualcomm Inc.",REGN:"Regeneron Pharma",
-  ROP:"Roper Technologies",ROST:"Ross Stores",RTX:"RTX Corp.",SBUX:"Starbucks Corp.",
-  SCHW:"Charles Schwab",SHW:"Sherwin-Williams",SLB:"Schlumberger",SMCI:"Super Micro Computer",
-  SNPS:"Synopsys Inc.",SO:"Southern Co.",SPG:"Simon Property Group",SPGI:"S&P Global",
-  SRE:"Sempra",SYK:"Stryker Corp.",SYY:"Sysco Corp.",T:"AT&T Inc.",
-  TFC:"Truist Financial",TGT:"Target Corp.",TJX:"TJX Companies",TMO:"Thermo Fisher Scientific",
-  TMUS:"T-Mobile US",TSLA:"Tesla Inc.",TSN:"Tyson Foods",TXN:"Texas Instruments",
-  UNH:"UnitedHealth Group",UNP:"Union Pacific",UPS:"United Parcel Service",URI:"United Rentals",
-  USB:"U.S. Bancorp",V:"Visa Inc.",VICI:"VICI Properties",VLO:"Valero Energy",
-  VRSK:"Verisk Analytics",VRTX:"Vertex Pharmaceuticals",VZ:"Verizon Communications",
-  WBA:"Walgreens Boots Alliance",WFC:"Wells Fargo",WM:"Waste Management",WMT:"Walmart Inc.",
-  XEL:"Xcel Energy",XOM:"Exxon Mobil",ZTS:"Zoetis Inc.",
+  AAPL: "Apple Inc.", ABBV: "AbbVie Inc.", ABT: "Abbott Laboratories", ACN: "Accenture plc",
+  ADBE: "Adobe Inc.", ADI: "Analog Devices", ADM: "Archer-Daniels-Midland", ADP: "Automatic Data Processing",
+  ADSK: "Autodesk Inc.", AEP: "American Electric Power", AFL: "Aflac Inc.", AIG: "American Intl Group",
+  AMAT: "Applied Materials", AMD: "Advanced Micro Devices", AMGN: "Amgen Inc.", AMP: "Ameriprise Financial",
+  AMZN: "Amazon.com Inc.", ANET: "Arista Networks", ANSS: "Ansys Inc.", AON: "Aon plc",
+  APD: "Air Products & Chemicals", APH: "Amphenol Corp.", AVGO: "Broadcom Inc.", AXP: "American Express",
+  BA: "Boeing Co.", BAC: "Bank of America", BAX: "Baxter International", BDX: "Becton Dickinson",
+  BK: "Bank of New York Mellon", BKNG: "Booking Holdings", BLK: "BlackRock Inc.", BMY: "Bristol-Myers Squibb",
+  "BRK.B": "Berkshire Hathaway", BSX: "Boston Scientific", C: "Citigroup Inc.", CAT: "Caterpillar Inc.",
+  CB: "Chubb Ltd.", CCI: "Crown Castle", CDNS: "Cadence Design Systems", CEG: "Constellation Energy",
+  CHTR: "Charter Communications", CI: "Cigna Group", CL: "Colgate-Palmolive", CMCSA: "Comcast Corp.",
+  CME: "CME Group", CMG: "Chipotle Mexican Grill", COP: "ConocoPhillips", COST: "Costco Wholesale",
+  CRM: "Salesforce Inc.", CSCO: "Cisco Systems", CTAS: "Cintas Corp.", CVS: "CVS Health",
+  CVX: "Chevron Corp.", D: "Dominion Energy", DD: "DuPont de Nemours", DE: "Deere & Co.",
+  DHR: "Danaher Corp.", DIS: "Walt Disney Co.", DUK: "Duke Energy", ECL: "Ecolab Inc.",
+  EMR: "Emerson Electric", EOG: "EOG Resources", ETN: "Eaton Corp.", EW: "Edwards Lifesciences",
+  EXC: "Exelon Corp.", F: "Ford Motor Co.", FANG: "Diamondback Energy", FCX: "Freeport-McMoRan",
+  FDX: "FedEx Corp.", FI: "Fiserv Inc.", GD: "General Dynamics", GE: "GE Aerospace",
+  GILD: "Gilead Sciences", GM: "General Motors", GOOG: "Alphabet Inc. (C)", GOOGL: "Alphabet Inc. (A)",
+  GPN: "Global Payments", GS: "Goldman Sachs", HAL: "Halliburton Co.", HD: "Home Depot",
+  HON: "Honeywell International", HUM: "Humana Inc.", IBM: "IBM Corp.", ICE: "Intercontinental Exchange",
+  IDXX: "IDEXX Laboratories", INTC: "Intel Corp.", INTU: "Intuit Inc.", ISRG: "Intuitive Surgical",
+  ITW: "Illinois Tool Works", JNJ: "Johnson & Johnson", JPM: "JPMorgan Chase", KHC: "Kraft Heinz Co.",
+  KLAC: "KLA Corp.", KO: "Coca-Cola Co.", LEN: "Lennar Corp.", LHX: "L3Harris Technologies",
+  LIN: "Linde plc", LLY: "Eli Lilly & Co.", LMT: "Lockheed Martin", LOW: "Lowe's Companies",
+  LRCX: "Lam Research", MA: "Mastercard Inc.", MAR: "Marriott International", MCD: "McDonald's Corp.",
+  MCHP: "Microchip Technology", MCK: "McKesson Corp.", MCO: "Moody's Corp.", MDLZ: "Mondelez Intl",
+  MDT: "Medtronic plc", MET: "MetLife Inc.", META: "Meta Platforms", MMM: "3M Co.",
+  MO: "Altria Group", MPC: "Marathon Petroleum", MRK: "Merck & Co.", MRNA: "Moderna Inc.",
+  MS: "Morgan Stanley", MSCI: "MSCI Inc.", MSFT: "Microsoft Corp.", MSI: "Motorola Solutions",
+  MU: "Micron Technology", NFLX: "Netflix Inc.", NKE: "Nike Inc.", NOC: "Northrop Grumman",
+  NOW: "ServiceNow Inc.", NSC: "Norfolk Southern", NVDA: "NVIDIA Corp.", ORCL: "Oracle Corp.",
+  OXY: "Occidental Petroleum", PANW: "Palo Alto Networks", PAYX: "Paychex Inc.", PEP: "PepsiCo Inc.",
+  PFE: "Pfizer Inc.", PG: "Procter & Gamble", PGR: "Progressive Corp.", PH: "Parker-Hannifin",
+  PLTR: "Palantir Technologies", PM: "Philip Morris Intl", PNC: "PNC Financial", PSA: "Public Storage",
+  PSX: "Phillips 66", PYPL: "PayPal Holdings", QCOM: "Qualcomm Inc.", REGN: "Regeneron Pharma",
+  ROP: "Roper Technologies", ROST: "Ross Stores", RTX: "RTX Corp.", SBUX: "Starbucks Corp.",
+  SCHW: "Charles Schwab", SHW: "Sherwin-Williams", SLB: "Schlumberger", SMCI: "Super Micro Computer",
+  SNPS: "Synopsys Inc.", SO: "Southern Co.", SPG: "Simon Property Group", SPGI: "S&P Global",
+  SRE: "Sempra", SYK: "Stryker Corp.", SYY: "Sysco Corp.", T: "AT&T Inc.",
+  TFC: "Truist Financial", TGT: "Target Corp.", TJX: "TJX Companies", TMO: "Thermo Fisher Scientific",
+  TMUS: "T-Mobile US", TSLA: "Tesla Inc.", TSN: "Tyson Foods", TXN: "Texas Instruments",
+  UNH: "UnitedHealth Group", UNP: "Union Pacific", UPS: "United Parcel Service", URI: "United Rentals",
+  USB: "U.S. Bancorp", V: "Visa Inc.", VICI: "VICI Properties", VLO: "Valero Energy",
+  VRSK: "Verisk Analytics", VRTX: "Vertex Pharmaceuticals", VZ: "Verizon Communications",
+  WBA: "Walgreens Boots Alliance", WFC: "Wells Fargo", WM: "Waste Management", WMT: "Walmart Inc.",
+  XEL: "Xcel Energy", XOM: "Exxon Mobil", ZTS: "Zoetis Inc.",
   // Popular non-S&P tickers
-  ABNB:"Airbnb Inc.",AI:"C3.ai Inc.",ARM:"Arm Holdings",COIN:"Coinbase Global",
-  CRWD:"CrowdStrike Holdings",DDOG:"Datadog Inc.",FTNT:"Fortinet Inc.",GME:"GameStop Corp.",
-  HOOD:"Robinhood Markets",MARA:"Marathon Digital",MELI:"MercadoLibre",NET:"Cloudflare Inc.",
-  PINS:"Pinterest Inc.",RIVN:"Rivian Automotive",RKLB:"Rocket Lab USA",ROKU:"Roku Inc.",
-  SE:"Sea Ltd.",SHOP:"Shopify Inc.",SNAP:"Snap Inc.",SNOW:"Snowflake Inc.",
-  SQ:"Block Inc.",SPOT:"Spotify Technology",SOFI:"SoFi Technologies",TTD:"The Trade Desk",
-  UBER:"Uber Technologies",U:"Unity Software",ZM:"Zoom Video Comms",ZS:"Zscaler Inc.",
+  ABNB: "Airbnb Inc.", AI: "C3.ai Inc.", ARM: "Arm Holdings", COIN: "Coinbase Global",
+  CRWD: "CrowdStrike Holdings", DDOG: "Datadog Inc.", FTNT: "Fortinet Inc.", GME: "GameStop Corp.",
+  HOOD: "Robinhood Markets", MARA: "Marathon Digital", MELI: "MercadoLibre", NET: "Cloudflare Inc.",
+  PINS: "Pinterest Inc.", RIVN: "Rivian Automotive", RKLB: "Rocket Lab USA", ROKU: "Roku Inc.",
+  SE: "Sea Ltd.", SHOP: "Shopify Inc.", SNAP: "Snap Inc.", SNOW: "Snowflake Inc.",
+  SQ: "Block Inc.", SPOT: "Spotify Technology", SOFI: "SoFi Technologies", TTD: "The Trade Desk",
+  UBER: "Uber Technologies", U: "Unity Software", ZM: "Zoom Video Comms", ZS: "Zscaler Inc.",
   // Major ETFs
-  SPY:"SPDR S&P 500 ETF",QQQ:"Invesco QQQ Trust",IWM:"iShares Russell 2000",
-  DIA:"SPDR Dow Jones ETF",VOO:"Vanguard S&P 500 ETF",VTI:"Vanguard Total Stock Market",
-  ARKK:"ARK Innovation ETF",XLF:"Financial Select SPDR",XLE:"Energy Select SPDR",
-  XLK:"Technology Select SPDR",XLV:"Health Care Select SPDR",GLD:"SPDR Gold Shares",
-  SLV:"iShares Silver Trust",TLT:"iShares 20+ Yr Treasury",HYG:"iShares High Yield Bond",
+  SPY: "SPDR S&P 500 ETF", QQQ: "Invesco QQQ Trust", IWM: "iShares Russell 2000",
+  DIA: "SPDR Dow Jones ETF", VOO: "Vanguard S&P 500 ETF", VTI: "Vanguard Total Stock Market",
+  ARKK: "ARK Innovation ETF", XLF: "Financial Select SPDR", XLE: "Energy Select SPDR",
+  XLK: "Technology Select SPDR", XLV: "Health Care Select SPDR", GLD: "SPDR Gold Shares",
+  SLV: "iShares Silver Trust", TLT: "iShares 20+ Yr Treasury", HYG: "iShares High Yield Bond",
   // ADRs & International
-  NVO:"Novo Nordisk",TSM:"Taiwan Semiconductor",BABA:"Alibaba Group",JD:"JD.com Inc.",
-  PDD:"PDD Holdings",ASML:"ASML Holding",SAP:"SAP SE",TM:"Toyota Motor",
-  NVS:"Novartis AG",UL:"Unilever plc",BP:"BP plc",SHEL:"Shell plc",RIO:"Rio Tinto",
-  BHP:"BHP Group",VALE:"Vale S.A.",
+  NVO: "Novo Nordisk", TSM: "Taiwan Semiconductor", BABA: "Alibaba Group", JD: "JD.com Inc.",
+  PDD: "PDD Holdings", ASML: "ASML Holding", SAP: "SAP SE", TM: "Toyota Motor",
+  NVS: "Novartis AG", UL: "Unilever plc", BP: "BP plc", SHEL: "Shell plc", RIO: "Rio Tinto",
+  BHP: "BHP Group", VALE: "Vale S.A.",
 };
 
 // ── Omnibar event wiring ────────────────────────────────────────────────
@@ -708,6 +708,351 @@ function _buildMockTickerResult(symbol) {
   };
 }
 
+// ============================================================
+// SECTION: 3D Vector Space Visualization (Three.js)
+// ============================================================
+
+let _active3DScene = null;  // track active scene for cleanup
+
+/**
+ * Render an interactive 3D point graph showing the search query (ticker)
+ * as a central node surrounded by matched narrative nodes.
+ *
+ * @param {HTMLElement} container - DOM element to render into
+ * @param {string} tickerSymbol - The searched ticker symbol
+ * @param {Array} narratives - Array of { name, distance, similarity, model_risk, event_count, ... }
+ * @returns {{ dispose: () => void }} cleanup handle
+ */
+function render3DVectorSpace(container, tickerSymbol, narratives) {
+  const width = container.clientWidth;
+  const height = container.clientHeight || 400;
+
+  // ── Scene, camera, renderer ──
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(55, width / height, 0.1, 1000);
+  camera.position.set(0, 2.5, 6);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+  container.appendChild(renderer.domElement);
+
+  // ── Lights ──
+  const ambientLight = new THREE.AmbientLight(0x334466, 0.8);
+  scene.add(ambientLight);
+  const pointLight = new THREE.PointLight(0x00f0ff, 1.2, 30);
+  pointLight.position.set(2, 4, 3);
+  scene.add(pointLight);
+  const pointLight2 = new THREE.PointLight(0xf43f5e, 0.6, 25);
+  pointLight2.position.set(-3, -2, 2);
+  scene.add(pointLight2);
+
+  // ── Helpers: risk → color ──
+  function riskToColor(risk) {
+    const r = risk ?? 0;
+    if (r >= 0.66) return new THREE.Color(0xf43f5e);
+    if (r >= 0.33) return new THREE.Color(0xf59e0b);
+    return new THREE.Color(0x10b981);
+  }
+
+  // ── Grid / reference plane ──
+  const gridHelper = new THREE.GridHelper(10, 20, 0x1a2340, 0x111827);
+  gridHelper.position.y = -2;
+  scene.add(gridHelper);
+
+  // ── Central ticker node (large glowing sphere) ──
+  const centerGeo = new THREE.SphereGeometry(0.35, 32, 32);
+  const centerMat = new THREE.MeshPhongMaterial({
+    color: 0x00f0ff,
+    emissive: 0x00f0ff,
+    emissiveIntensity: 0.5,
+    transparent: true,
+    opacity: 0.95,
+    shininess: 100,
+  });
+  const centerMesh = new THREE.Mesh(centerGeo, centerMat);
+  centerMesh.userData = { type: "ticker", label: tickerSymbol };
+  scene.add(centerMesh);
+
+  // Inner glow sphere
+  const glowGeo = new THREE.SphereGeometry(0.55, 32, 32);
+  const glowMat = new THREE.MeshBasicMaterial({
+    color: 0x00f0ff,
+    transparent: true,
+    opacity: 0.08,
+  });
+  const glowMesh = new THREE.Mesh(glowGeo, glowMat);
+  scene.add(glowMesh);
+
+  // ── Create text sprite helper ──
+  function makeTextSprite(text, opts = {}) {
+    const fontSize = opts.fontSize || 48;
+    const fontFamily = opts.fontFamily || "'Outfit', 'Inter', sans-serif";
+    const color = opts.color || "#ffffff";
+    const bgColor = opts.bgColor || "rgba(10, 15, 28, 0.75)";
+    const padding = 16;
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.font = `600 ${fontSize}px ${fontFamily}`;
+    const textWidth = ctx.measureText(text).width;
+
+    canvas.width = textWidth + padding * 2;
+    canvas.height = fontSize + padding * 2;
+
+    // Background
+    ctx.fillStyle = bgColor;
+    const r = 12;
+    ctx.beginPath();
+    ctx.moveTo(r, 0);
+    ctx.lineTo(canvas.width - r, 0);
+    ctx.quadraticCurveTo(canvas.width, 0, canvas.width, r);
+    ctx.lineTo(canvas.width, canvas.height - r);
+    ctx.quadraticCurveTo(canvas.width, canvas.height, canvas.width - r, canvas.height);
+    ctx.lineTo(r, canvas.height);
+    ctx.quadraticCurveTo(0, canvas.height, 0, canvas.height - r);
+    ctx.lineTo(0, r);
+    ctx.quadraticCurveTo(0, 0, r, 0);
+    ctx.closePath();
+    ctx.fill();
+
+    // Text
+    ctx.font = `600 ${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = color;
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "center";
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.minFilter = THREE.LinearFilter;
+    const spriteMat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false });
+    const sprite = new THREE.Sprite(spriteMat);
+
+    const scale = (opts.scale || 0.015) * canvas.height;
+    sprite.scale.set(scale * (canvas.width / canvas.height), scale, 1);
+    return sprite;
+  }
+
+  // ── Center label ──
+  const centerLabel = makeTextSprite(tickerSymbol, {
+    fontSize: 56, color: "#00f0ff", bgColor: "rgba(0, 240, 255, 0.12)", scale: 0.018,
+  });
+  centerLabel.position.set(0, 0.65, 0);
+  scene.add(centerLabel);
+
+  // ── Layout narrative nodes on a golden-angle spherical spiral ──
+  const nodeGroup = new THREE.Group();
+  scene.add(nodeGroup);
+  const hoverable = [];  // meshes for raycasting
+
+  const goldenAngle = Math.PI * (3 - Math.sqrt(5)); // ~137.5°
+
+  narratives.forEach((n, i) => {
+    // Radial distance based on semantic distance (closer = more similar)
+    const dist = n.distance ?? 0.5;
+    const radialDist = 1.0 + dist * 5.0;  // scale to a visible range
+
+    // Spherical distribution using golden angle spiral
+    const theta = goldenAngle * i;
+    const phi = Math.acos(1 - (2 * (i + 0.5)) / Math.max(narratives.length, 1));
+
+    const x = radialDist * Math.sin(phi) * Math.cos(theta);
+    const y = radialDist * Math.cos(phi) * 0.6;  // flatten slightly
+    const z = radialDist * Math.sin(phi) * Math.sin(theta);
+
+    // Sphere size based on event count
+    const eventCount = n.event_count ?? 1;
+    const radius = 0.12 + Math.min(eventCount / 20, 0.25);
+
+    const color = riskToColor(n.model_risk);
+
+    // Node sphere
+    const geo = new THREE.SphereGeometry(radius, 24, 24);
+    const mat = new THREE.MeshPhongMaterial({
+      color: color,
+      emissive: color,
+      emissiveIntensity: 0.35,
+      transparent: true,
+      opacity: 0.9,
+      shininess: 80,
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(x, y, z);
+    mesh.userData = {
+      type: "narrative",
+      name: n.name,
+      similarity: n.similarity,
+      model_risk: n.model_risk,
+      event_count: n.event_count,
+      index: i,
+    };
+    nodeGroup.add(mesh);
+    hoverable.push(mesh);
+
+    // Outer glow per node
+    const nodeGlowGeo = new THREE.SphereGeometry(radius * 1.8, 16, 16);
+    const nodeGlowMat = new THREE.MeshBasicMaterial({
+      color: color,
+      transparent: true,
+      opacity: 0.06,
+    });
+    const nodeGlow = new THREE.Mesh(nodeGlowGeo, nodeGlowMat);
+    nodeGlow.position.copy(mesh.position);
+    nodeGroup.add(nodeGlow);
+
+    // Connection line from center to node
+    const similarity = n.similarity ?? 0.5;
+    const lineColor = color.clone().lerp(new THREE.Color(0x00f0ff), 0.3);
+    const lineMat = new THREE.LineBasicMaterial({
+      color: lineColor,
+      transparent: true,
+      opacity: 0.15 + similarity * 0.35,
+      linewidth: 1,
+    });
+    const lineGeo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(x, y, z),
+    ]);
+    const line = new THREE.Line(lineGeo, lineMat);
+    nodeGroup.add(line);
+
+    // Label sprite
+    const simPct = ((similarity) * 100).toFixed(0);
+    const labelText = n.name.length > 20 ? n.name.slice(0, 20) + "…" : n.name;
+    const label = makeTextSprite(`${labelText}  ${simPct}%`, {
+      fontSize: 36,
+      color: "#c8d6e5",
+      bgColor: "rgba(10, 15, 28, 0.65)",
+      scale: 0.012,
+    });
+    label.position.set(x, y + radius + 0.35, z);
+    nodeGroup.add(label);
+  });
+
+  // ── Orbit Controls ──
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.8;
+  controls.minDistance = 2;
+  controls.maxDistance = 15;
+  controls.target.set(0, 0, 0);
+  controls.update();
+
+  // Pause auto-rotate on user interaction
+  let userInteracting = false;
+  renderer.domElement.addEventListener("pointerdown", () => {
+    userInteracting = true;
+    controls.autoRotate = false;
+  });
+  renderer.domElement.addEventListener("pointerup", () => {
+    setTimeout(() => { controls.autoRotate = true; userInteracting = false; }, 3000);
+  });
+
+  // ── Raycasting for hover tooltips ──
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  let tooltip = container.querySelector(".vector-tooltip");
+  if (!tooltip) {
+    tooltip = document.createElement("div");
+    tooltip.className = "vector-tooltip";
+    container.appendChild(tooltip);
+  }
+
+  function onMouseMove(e) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(hoverable);
+
+    if (intersects.length > 0) {
+      const obj = intersects[0].object;
+      const d = obj.userData;
+
+      // Highlight
+      obj.material.emissiveIntensity = 0.8;
+      renderer.domElement.style.cursor = "pointer";
+
+      // Show tooltip
+      tooltip.style.display = "block";
+      tooltip.style.left = (e.clientX - rect.left + 16) + "px";
+      tooltip.style.top = (e.clientY - rect.top - 12) + "px";
+      tooltip.innerHTML = `
+        <div class="vt-name">${escapeHtml(d.name)}</div>
+        <div class="vt-row"><span class="vt-label">Similarity</span><span class="vt-val text-accent-cyan">${((d.similarity ?? 0) * 100).toFixed(0)}%</span></div>
+        <div class="vt-row"><span class="vt-label">Risk</span><span class="vt-val" style="color:${riskColor(d.model_risk)}">${(d.model_risk ?? 0).toFixed(2)}</span></div>
+        <div class="vt-row"><span class="vt-label">Events</span><span class="vt-val">${d.event_count ?? 0}</span></div>
+      `;
+    } else {
+      // Reset
+      hoverable.forEach(m => { m.material.emissiveIntensity = 0.35; });
+      renderer.domElement.style.cursor = "grab";
+      tooltip.style.display = "none";
+    }
+  }
+
+  renderer.domElement.addEventListener("mousemove", onMouseMove);
+
+  // ── Animation loop ──
+  let animFrame;
+  const clock = new THREE.Clock();
+
+  function animate() {
+    animFrame = requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    // Pulse the center glow
+    glowMesh.scale.setScalar(1 + Math.sin(t * 2) * 0.1);
+    glowMat.opacity = 0.06 + Math.sin(t * 2) * 0.03;
+    centerMat.emissiveIntensity = 0.4 + Math.sin(t * 3) * 0.15;
+
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // ── Resize handling ──
+  const resizeObs = new ResizeObserver(() => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    if (w === 0 || h === 0) return;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  });
+  resizeObs.observe(container);
+
+  // ── Cleanup function ──
+  function dispose() {
+    cancelAnimationFrame(animFrame);
+    resizeObs.disconnect();
+    renderer.domElement.removeEventListener("mousemove", onMouseMove);
+    controls.dispose();
+    renderer.dispose();
+
+    // Dispose all geometries and materials
+    scene.traverse(obj => {
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) {
+        if (obj.material.map) obj.material.map.dispose();
+        obj.material.dispose();
+      }
+    });
+
+    if (renderer.domElement.parentNode) {
+      renderer.domElement.parentNode.removeChild(renderer.domElement);
+    }
+    if (tooltip) tooltip.style.display = "none";
+  }
+
+  return { dispose };
+}
+
+
 // ── Ticker Analysis Window ──────────────────────────────────────────────
 let _tickerAnalysisChart = null;
 
@@ -729,7 +1074,7 @@ function openTickerAnalysis(result) {
   // Compute aggregate stats
   const avgRisk = narrs.length ? narrs.reduce((s, n) => s + (n.model_risk ?? 0), 0) / narrs.length : 0;
   const maxRisk = narrs.length ? Math.max(...narrs.map(n => n.model_risk ?? 0)) : 0;
-  const avgSim  = narrs.length ? narrs.reduce((s, n) => s + (n.similarity ?? 0), 0) / narrs.length : 0;
+  const avgSim = narrs.length ? narrs.reduce((s, n) => s + (n.similarity ?? 0), 0) / narrs.length : 0;
   const totalEvents = narrs.reduce((s, n) => s + (n.event_count ?? 0), 0);
 
   // Build the overlay HTML
@@ -778,19 +1123,26 @@ function openTickerAnalysis(result) {
 
       <!-- Two-column body -->
       <div class="ta-body">
-        <!-- Left: chart -->
-        <div class="ta-chart-section card-inner">
-          <h3 class="ta-section-title"><i class="ph ph-chart-bar"></i> Risk × Similarity</h3>
-          <div class="ta-chart-wrap"><canvas id="ta-chart"></canvas></div>
+        <!-- Left: 3D Vector Space -->
+        <div class="ta-3d-section card-inner">
+          <h3 class="ta-section-title"><i class="ph ph-cube"></i> Vector Space Proximity</h3>
+          <div class="ta-3d-container" id="ta-3d-container"></div>
+          <div class="ta-3d-legend">
+            <span class="ta-3d-legend-item"><span class="ta-3d-dot" style="background:#00f0ff;box-shadow:0 0 6px #00f0ff"></span> Search Query</span>
+            <span class="ta-3d-legend-item"><span class="ta-3d-dot" style="background:#10b981"></span> Low Risk</span>
+            <span class="ta-3d-legend-item"><span class="ta-3d-dot" style="background:#f59e0b"></span> Med Risk</span>
+            <span class="ta-3d-legend-item"><span class="ta-3d-dot" style="background:#f43f5e"></span> High Risk</span>
+            <span class="ta-3d-legend-item"><i class="ph ph-arrows-out-line-horizontal" style="font-size:0.85rem;opacity:0.5"></i> Distance = similarity</span>
+          </div>
         </div>
         <!-- Right: narrative list -->
         <div class="ta-narratives-section">
           <h3 class="ta-section-title"><i class="ph ph-list-bullets"></i> Related Narratives</h3>
           <div class="ta-narrative-list custom-scrollbar">
             ${narrs.length === 0 ? '<div class="ta-empty">No related narratives found</div>' :
-              narrs.sort((a, b) => (b.similarity ?? 0) - (a.similarity ?? 0)).map((n, i) => {
-                const simPct = ((n.similarity ?? 0) * 100).toFixed(0);
-                return `
+      narrs.sort((a, b) => (b.similarity ?? 0) - (a.similarity ?? 0)).map((n, i) => {
+        const simPct = ((n.similarity ?? 0) * 100).toFixed(0);
+        return `
                 <div class="ta-narrative-card" data-id="${n.id}">
                   <div class="ta-narrative-rank">${i + 1}</div>
                   <div class="ta-narrative-info">
@@ -808,8 +1160,8 @@ function openTickerAnalysis(result) {
                     <div class="ta-sim-bar"><div class="ta-sim-bar-fill" style="width:${simPct}%"></div></div>
                   </div>
                 </div>`;
-              }).join("")
-            }
+      }).join("")
+    }
           </div>
         </div>
       </div>
@@ -825,6 +1177,7 @@ function openTickerAnalysis(result) {
     overlay.classList.add("closing");
     setTimeout(() => overlay.remove(), 250);
     if (_tickerAnalysisChart) { _tickerAnalysisChart.destroy(); _tickerAnalysisChart = null; }
+    if (_active3DScene) { _active3DScene.dispose(); _active3DScene = null; }
   };
   closeBtn.addEventListener("click", closeFn);
   backdrop.addEventListener("click", closeFn);
@@ -842,74 +1195,13 @@ function openTickerAnalysis(result) {
     });
   });
 
-  // Render the chart (bubble chart: x = similarity, y = risk, size = events)
+  // Render the 3D vector space visualization
   if (narrs.length > 0) {
     requestAnimationFrame(() => {
-      const ctx = document.getElementById("ta-chart")?.getContext("2d");
-      if (!ctx) return;
-      _tickerAnalysisChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: narrs.map(n => n.name.length > 18 ? n.name.slice(0, 18) + "…" : n.name),
-          datasets: [
-            {
-              label: "Risk Score",
-              data: narrs.map(n => n.model_risk ?? 0),
-              backgroundColor: narrs.map(n => {
-                const r = n.model_risk ?? 0;
-                if (r >= 0.66) return "rgba(244, 63, 94, 0.7)";
-                if (r >= 0.33) return "rgba(245, 158, 11, 0.6)";
-                return "rgba(16, 185, 129, 0.6)";
-              }),
-              borderColor: narrs.map(n => {
-                const r = n.model_risk ?? 0;
-                if (r >= 0.66) return "#f43f5e";
-                if (r >= 0.33) return "#f59e0b";
-                return "#10b981";
-              }),
-              borderWidth: 1.5,
-              borderRadius: 4,
-              order: 2,
-            },
-            {
-              label: "Similarity",
-              data: narrs.map(n => n.similarity ?? 0),
-              type: "line",
-              borderColor: "#00f0ff",
-              backgroundColor: "rgba(0, 240, 255, 0.1)",
-              borderWidth: 2,
-              pointRadius: 5,
-              pointBackgroundColor: "#00f0ff",
-              pointBorderColor: "#0a0f1c",
-              pointBorderWidth: 2,
-              tension: 0.3,
-              fill: true,
-              order: 1,
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          interaction: { mode: "index", intersect: false },
-          plugins: {
-            legend: {
-              labels: { color: "#8b949e", font: { size: 11 }, usePointStyle: true, pointStyle: "rectRounded" }
-            }
-          },
-          scales: {
-            y: {
-              min: 0, max: 1,
-              grid: { color: "rgba(255,255,255,0.04)" },
-              ticks: { color: "#8b949e", font: { size: 10 } }
-            },
-            x: {
-              grid: { display: false },
-              ticks: { color: "#8b949e", font: { size: 10 }, maxRotation: 45, minRotation: 25 }
-            }
-          }
-        }
-      });
+      const container3d = document.getElementById("ta-3d-container");
+      if (!container3d) return;
+      if (_active3DScene) { _active3DScene.dispose(); _active3DScene = null; }
+      _active3DScene = render3DVectorSpace(container3d, result.ticker, narrs);
     });
   }
 }
@@ -1520,15 +1812,15 @@ const MOCK_TICKER_NARRATIVES = {
   META: { company_name: "Meta Platforms", sector: "Technology", industry: "Internet Content", ids: ["4"] },
   GOOGL: { company_name: "Alphabet Inc.", sector: "Technology", industry: "Internet Content", ids: ["4", "3"] },
   AMZN: { company_name: "Amazon.com Inc.", sector: "Consumer Cyclical", industry: "Internet Retail", ids: ["4", "3"] },
-  JPM:  { company_name: "JPMorgan Chase", sector: "Financial Services", industry: "Banks — Diversified", ids: ["2", "5"] },
-  BAC:  { company_name: "Bank of America", sector: "Financial Services", industry: "Banks — Diversified", ids: ["2", "5"] },
-  GS:   { company_name: "Goldman Sachs", sector: "Financial Services", industry: "Capital Markets", ids: ["2", "5"] },
-  XOM:  { company_name: "Exxon Mobil", sector: "Energy", industry: "Oil & Gas Integrated", ids: ["1"] },
-  CVX:  { company_name: "Chevron Corp.", sector: "Energy", industry: "Oil & Gas Integrated", ids: ["1"] },
-  OXY:  { company_name: "Occidental Petroleum", sector: "Energy", industry: "Oil & Gas E&P", ids: ["1"] },
-  JNJ:  { company_name: "Johnson & Johnson", sector: "Healthcare", industry: "Drug Manufacturers", ids: ["5"] },
-  PFE:  { company_name: "Pfizer Inc.", sector: "Healthcare", industry: "Drug Manufacturers", ids: ["5"] },
-  BA:   { company_name: "Boeing Co.", sector: "Industrials", industry: "Aerospace & Defense", ids: ["3", "1"] },
+  JPM: { company_name: "JPMorgan Chase", sector: "Financial Services", industry: "Banks — Diversified", ids: ["2", "5"] },
+  BAC: { company_name: "Bank of America", sector: "Financial Services", industry: "Banks — Diversified", ids: ["2", "5"] },
+  GS: { company_name: "Goldman Sachs", sector: "Financial Services", industry: "Capital Markets", ids: ["2", "5"] },
+  XOM: { company_name: "Exxon Mobil", sector: "Energy", industry: "Oil & Gas Integrated", ids: ["1"] },
+  CVX: { company_name: "Chevron Corp.", sector: "Energy", industry: "Oil & Gas Integrated", ids: ["1"] },
+  OXY: { company_name: "Occidental Petroleum", sector: "Energy", industry: "Oil & Gas E&P", ids: ["1"] },
+  JNJ: { company_name: "Johnson & Johnson", sector: "Healthcare", industry: "Drug Manufacturers", ids: ["5"] },
+  PFE: { company_name: "Pfizer Inc.", sector: "Healthcare", industry: "Drug Manufacturers", ids: ["5"] },
+  BA: { company_name: "Boeing Co.", sector: "Industrials", industry: "Aerospace & Defense", ids: ["3", "1"] },
 };
 
 async function searchTicker() {
@@ -1640,8 +1932,8 @@ function renderTickerNarratives(narratives) {
   tbody.innerHTML = sorted.map(n => {
     const simPct = ((n.similarity ?? 0) * 100).toFixed(0);
     const simColor = n.similarity >= 0.7 ? "var(--accent-cyan)"
-                   : n.similarity >= 0.4 ? "var(--risk-medium)"
-                   : "var(--text-muted)";
+      : n.similarity >= 0.4 ? "var(--risk-medium)"
+        : "var(--text-muted)";
 
     return `
     <tr data-id="${n.id}">
@@ -1754,8 +2046,8 @@ let _cachedNarratives = [];   // stored for radar + ring charts
 
 // Neon palette for multi-series charts
 const NEON_PALETTE = [
-  { line: "#00f0ff", fill: "rgba(0, 240, 255, 0.18)",  glow: "rgba(0, 240, 255, 0.5)" },
-  { line: "#f43f5e", fill: "rgba(244, 63, 94, 0.15)",  glow: "rgba(244, 63, 94, 0.5)" },
+  { line: "#00f0ff", fill: "rgba(0, 240, 255, 0.18)", glow: "rgba(0, 240, 255, 0.5)" },
+  { line: "#f43f5e", fill: "rgba(244, 63, 94, 0.15)", glow: "rgba(244, 63, 94, 0.5)" },
   { line: "#8b5cf6", fill: "rgba(139, 92, 246, 0.15)", glow: "rgba(139, 92, 246, 0.5)" },
   { line: "#f59e0b", fill: "rgba(245, 158, 11, 0.15)", glow: "rgba(245, 158, 11, 0.5)" },
   { line: "#10b981", fill: "rgba(16, 185, 129, 0.15)", glow: "rgba(16, 185, 129, 0.5)" },
@@ -1894,8 +2186,8 @@ function _renderBandsChart(ctx, labels, values) {
   _destroyRiskChart();
 
   const highBand = values.map(v => Math.max(0, v - 0.66));
-  const medBand  = values.map(v => Math.max(0, Math.min(v, 0.66) - 0.33));
-  const lowBand  = values.map(v => Math.min(v, 0.33));
+  const medBand = values.map(v => Math.max(0, Math.min(v, 0.66) - 0.33));
+  const lowBand = values.map(v => Math.min(v, 0.33));
 
   riskChart = new Chart(ctx, {
     type: "line",
@@ -2457,11 +2749,11 @@ updateRiskChart = async function () {
 
   // Dispatch to correct renderer
   switch (currentChartType) {
-    case "bars":    _renderBarsChart(ctx, labels, values); break;
-    case "bands":   _renderBandsChart(ctx, labels, values); break;
-    case "scatter":  _renderScatterChart(ctx, labels, values, history); break;
-    case "radar":   _renderRadarChart(ctx); break;
-    case "ring":    _renderRingChart(ctx); break;
+    case "bars": _renderBarsChart(ctx, labels, values); break;
+    case "bands": _renderBandsChart(ctx, labels, values); break;
+    case "scatter": _renderScatterChart(ctx, labels, values, history); break;
+    case "radar": _renderRadarChart(ctx); break;
+    case "ring": _renderRingChart(ctx); break;
   }
 };
 

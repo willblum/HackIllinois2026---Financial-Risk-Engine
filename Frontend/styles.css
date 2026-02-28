@@ -1775,8 +1775,15 @@ body.light-theme .theme-btn:hover {
 }
 
 @keyframes fadeSlideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .ticker-company-info {
@@ -2002,6 +2009,7 @@ body.light-theme .ticker-symbol-badge {
     opacity: 0;
     transform: translateY(-6px) scale(0.97);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -2127,16 +2135,34 @@ body.light-theme .ticker-symbol-badge {
 /* ── Neon bar glow animation ── */
 
 @keyframes barPulse {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.3); }
+
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.3);
+  }
 }
 
 /* ── Scatter pulse point ── */
 
 @keyframes scatterPulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.6); opacity: 0.4; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.6);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* ── Light theme overrides for chart type dropdown ── */
@@ -2168,7 +2194,8 @@ body.light-theme .chart-type-item.selected {
 
 .omnibar-wrapper {
   position: sticky;
-  top: 58px;                    /* sits right below the header */
+  top: 58px;
+  /* sits right below the header */
   z-index: 45;
   padding: 0.65rem 2.5rem;
   background: rgba(5, 8, 17, 0.7);
@@ -2281,8 +2308,15 @@ body.light-theme .chart-type-item.selected {
 }
 
 @keyframes omnibarResultsIn {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .omnibar-results .search-result {
@@ -2516,13 +2550,23 @@ body.light-theme .omnibar-company-header .ticker-symbol-badge {
 }
 
 @keyframes taFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes taFadeOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
 }
 
 .ticker-analysis-backdrop {
@@ -2553,12 +2597,22 @@ body.light-theme .omnibar-company-header .ticker-symbol-badge {
 }
 
 @keyframes taWindowPop {
-  0%   { opacity: 0; transform: scale(0.94) translateY(12px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); }
+  0% {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 @keyframes taWindowOut {
-  to { opacity: 0; transform: scale(0.96) translateY(8px); }
+  to {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
 }
 
 .ticker-analysis-close {
@@ -2673,11 +2727,105 @@ body.light-theme .omnibar-company-header .ticker-symbol-badge {
   gap: 0.4rem;
 }
 
-.ta-chart-section {
+.ta-3d-section {
   background: #0d1221;
   border-radius: var(--radius-md);
   padding: 1rem 1.2rem;
   border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.ta-3d-container {
+  width: 100%;
+  height: 380px;
+  position: relative;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, rgba(0, 240, 255, 0.02) 0%, rgba(5, 8, 17, 0.95) 70%);
+  cursor: grab;
+}
+
+.ta-3d-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: var(--radius-sm);
+}
+
+/* ── 3D Hover Tooltip ── */
+
+.vector-tooltip {
+  display: none;
+  position: absolute;
+  z-index: 50;
+  padding: 0.7rem 0.9rem;
+  background: rgba(10, 15, 28, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 240, 255, 0.06);
+  pointer-events: none;
+  min-width: 160px;
+  max-width: 260px;
+}
+
+.vt-name {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: #fff;
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.vt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.15rem 0;
+}
+
+.vt-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vt-val {
+  font-family: var(--font-mono, monospace);
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
+/* ── 3D Legend ── */
+
+.ta-3d-legend {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.7rem;
+  padding: 0.5rem 0.2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.ta-3d-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.68rem;
+  font-family: var(--font-mono, monospace);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.ta-3d-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .ta-chart-wrap {
@@ -2828,7 +2976,7 @@ body.light-theme .ta-stat-card {
   border-color: rgba(0, 0, 0, 0.06);
 }
 
-body.light-theme .ta-chart-section {
+body.light-theme .ta-3d-section {
   background: #f8fafc;
   border-color: rgba(0, 0, 0, 0.06);
 }
