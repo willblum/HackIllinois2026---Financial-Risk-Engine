@@ -228,6 +228,26 @@ async function updateRiskChart() {
   const avgValue = values.reduce((a, b) => a + b, 0) / values.length;
   const avgData = Array(values.length).fill(avgValue);
 
+  // Update Chart Insights Panel
+  let maxRiskPoint = history[0];
+  let minRiskPoint = history[0];
+  history.forEach(p => {
+    if (p.model_risk_index > maxRiskPoint.model_risk_index) maxRiskPoint = p;
+    if (p.model_risk_index < minRiskPoint.model_risk_index) minRiskPoint = p;
+  });
+
+  const formatInsightsTime = (ts) => {
+    const d = new Date(ts * 1000);
+    if (currentChartRange === "1d") return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleDateString([], { month: "short", day: "numeric" }) + " " + d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  };
+
+  document.getElementById("insight-max-val").textContent = maxRiskPoint.model_risk_index.toFixed(2);
+  document.getElementById("insight-max-time").textContent = formatInsightsTime(maxRiskPoint.timestamp);
+  document.getElementById("insight-min-val").textContent = minRiskPoint.model_risk_index.toFixed(2);
+  document.getElementById("insight-min-time").textContent = formatInsightsTime(minRiskPoint.timestamp);
+  document.getElementById("insight-avg-val").textContent = avgValue.toFixed(2);
+
   if (!riskChart) {
     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0, "rgba(239, 68, 68, 0.4)");
@@ -270,7 +290,7 @@ async function updateRiskChart() {
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        interaction: { mode: "nearest", intersect: true, axis: 'x' },
+        interaction: { mode: "index", intersect: false },
         scales: {
           y: { min: 0, max: 1, grid: { color: "rgba(255,255,255,0.05)" }, ticks: { color: "#8b949e", font: { family: "'JetBrains Mono'" } } },
           x: { grid: { display: false }, ticks: { color: "#8b949e", maxTicksLimit: 6, font: { family: "'JetBrains Mono'" } } }
@@ -283,11 +303,8 @@ async function updateRiskChart() {
             bodyFont: { family: "'JetBrains Mono'" },
             borderColor: "rgba(0,240,255,0.3)",
             borderWidth: 1,
-            callbacks: {
-              label: function (context) {
-                if (context.dataset.label === 'Average') return `Average: ${context.parsed.y.toFixed(2)}`;
-                return `Risk: ${context.parsed.y.toFixed(2)}`;
-              }
+            filter: function (tooltipItem) {
+              return tooltipItem.dataset.label !== 'Average';
             }
           }
         }
@@ -340,8 +357,43 @@ document.getElementById("chart-expand-btn").addEventListener("click", (e) => {
     icon.className = "ph ph-arrows-out";
     e.currentTarget.title = "Expand Graph";
   }
-  // Force chart resize
-  setTimeout(() => riskChart && riskChart.resize(), 50);
+  // Smoothly resize chart alongside 400ms CSS transition
+  let start = Date.now();
+  let timer = setInterval(() => {
+    if (riskChart) riskChart.resize();
+    if (Date.now() - start > 450) clearInterval(timer);
+  }, 15);
+});
+
+// Chart Tooltip Trigger Events
+const triggerChartTooltip = (valStr) => {
+  if (!riskChart) return;
+  const targetVal = parseFloat(valStr);
+  const index = riskChart.data.datasets[0].data.findIndex(v => Math.abs(v - targetVal) < 0.001);
+  if (index !== -1) {
+    const activeEls = [{ datasetIndex: 0, index }];
+    riskChart.setActiveElements(activeEls);
+    riskChart.tooltip.setActiveElements(activeEls, { x: 0, y: 0 });
+    riskChart.update();
+  }
+};
+
+document.getElementById("btn-max-risk").addEventListener("click", () => {
+  triggerChartTooltip(document.getElementById("insight-max-val").textContent);
+});
+
+document.getElementById("btn-min-risk").addEventListener("click", () => {
+  triggerChartTooltip(document.getElementById("insight-min-val").textContent);
+});
+
+document.getElementById("btn-avg-risk").addEventListener("click", () => {
+  // Just trigger tooltip at latest point for average
+  if (!riskChart) return;
+  const lastIdx = riskChart.data.labels.length - 1;
+  const activeEls = [{ datasetIndex: 1, index: lastIdx }];
+  riskChart.setActiveElements(activeEls);
+  riskChart.tooltip.setActiveElements(activeEls, { x: 0, y: 0 });
+  riskChart.update();
 });
 
 // ============================================================

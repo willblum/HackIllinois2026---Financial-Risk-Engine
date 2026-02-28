@@ -110,6 +110,32 @@
       <div class="chart-wrapper" id="main-chart-wrapper">
         <canvas id="risk-chart"></canvas>
       </div>
+      <div class="chart-insights" id="chart-insights">
+        <button class="insight-btn" id="btn-max-risk">
+          <div class="insight-header">
+            <i class="ph-bold ph-trend-up text-accent-red"></i>
+            <span>Max Risk</span>
+          </div>
+          <div class="insight-value text-accent-red" id="insight-max-val">--</div>
+          <div class="insight-time" id="insight-max-time">--</div>
+        </button>
+        <button class="insight-btn" id="btn-min-risk">
+          <div class="insight-header">
+            <i class="ph-bold ph-trend-down text-accent-cyan"></i>
+            <span>Min Risk</span>
+          </div>
+          <div class="insight-value text-accent-cyan" id="insight-min-val">--</div>
+          <div class="insight-time" id="insight-min-time">--</div>
+        </button>
+        <button class="insight-btn" id="btn-avg-risk">
+          <div class="insight-header">
+            <i class="ph-bold ph-chart-line text-text-muted"></i>
+            <span>Avg Risk</span>
+          </div>
+          <div class="insight-value" id="insight-avg-val">--</div>
+          <div class="insight-time">Period Avg</div>
+        </button>
+      </div>
     </section>
 
     <!-- ── ROW 1: Pipeline Status ── -->
