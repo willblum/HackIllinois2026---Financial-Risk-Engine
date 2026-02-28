@@ -1,10 +1,10 @@
 """
-LLM client — calls the Modal-deployed LLM class for all inference needs.
+LLM client — calls the Cerebras API for all inference needs.
 
-The Modal app must be deployed before this will work:
-    modal deploy backend/modal_app.py
+Set CEREBRAS_API_KEY in .env (or environment) before starting the backend.
+Optionally override the model with CEREBRAS_MODEL (default: llama-3.3-70b).
 
-Three public functions match the same interface that was previously backed by Cerebras:
+Three public functions:
     label_narrative(story_text)     → {"name": str, "description": str}
     score_story(...)                → {"surprise": float, "impact": float}
     summarize_narrative_context(...)→ str
@@ -12,26 +12,27 @@ Three public functions match the same interface that was previously backed by Ce
 
 import json
 import time
-import modal
+from cerebras.cloud.sdk import Cerebras
 from core.config import settings
 
 
-# Lazy singleton — only connected when first used.
-# Falls back to None if Modal is not deployed, triggering the mock fallback.
-_llm = None
+# Lazy singleton — created on first use so startup doesn't fail if key is missing.
+_client: Cerebras | None = None
 
-def _get_llm():
-    global _llm
-    if _llm is None:
-        try:
-            _llm = modal.Cls.lookup(settings.modal_app_name, "LLM")
-        except Exception:
-            _llm = None
-    return _llm
+def _get_client() -> Cerebras:
+    global _client
+    if _client is None:
+        if not settings.cerebras_api_key:
+            raise RuntimeError(
+                "CEREBRAS_API_KEY is not set. Add it to .env or the environment."
+            )
+        _client = Cerebras(api_key=settings.cerebras_api_key)
+    return _client
 
 
 def _chat(messages: list[dict], max_tokens: int = 256, temperature: float = 0.1) -> str:
     """
+<<<<<<< HEAD
     Call the Modal LLM with exponential backoff retry.
     Falls back to mock responses if Modal is unavailable.
     """
@@ -40,10 +41,21 @@ def _chat(messages: list[dict], max_tokens: int = 256, temperature: float = 0.1)
         # Return empty string to trigger fallback behavior in callers
         return ""
 
+=======
+    Call Cerebras chat completions with exponential backoff retry (3 attempts).
+    """
+    client = _get_client()
+>>>>>>> origin/model
     for attempt in range(3):
         try:
-            return llm().chat.remote(messages, max_tokens=max_tokens, temperature=temperature)
-        except Exception as e:
+            resp = client.chat.completions.create(
+                model=settings.cerebras_model,
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=temperature,
+            )
+            return resp.choices[0].message.content or ""
+        except Exception:
             if attempt == 2:
                 # Fall back to empty on final failure
                 print(f"[llm_client] Modal call failed after 3 attempts: {e}")

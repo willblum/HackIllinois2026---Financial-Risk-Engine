@@ -650,15 +650,33 @@ h3 {
   border: none;
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 500;
   outline: none;
   cursor: pointer;
   appearance: none;
-  padding-right: 1rem;
+  padding-right: 1.5rem;
+}
+
+/* Custom dropdown arrow using an SVG background */
+.select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.6rem;
+  height: 0.4rem;
+  background-color: var(--text-muted);
+  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  pointer-events: none;
 }
 
 #sort-select option {
   background: var(--bg-color);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  padding: 0.5rem;
 }
 
 .table-wrapper {
