@@ -633,10 +633,18 @@ h3 {
   position: relative;
   display: inline-flex;
   align-items: center;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--panel-border);
-  border-radius: var(--radius-sm);
-  padding: 0.3rem 0.6rem;
+  background: rgba(10, 15, 30, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  /* Pill shape */
+  padding: 0.4rem 0.8rem;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.select-wrapper:hover {
+  border-color: rgba(0, 240, 255, 0.3);
+  background: rgba(15, 25, 45, 0.5);
 }
 
 .select-wrapper i {
