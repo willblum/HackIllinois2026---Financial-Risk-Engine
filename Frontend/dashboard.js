@@ -198,12 +198,14 @@ async function updateRiskChart() {
   // Mock logic to handle ranges and offsets
   let windowSize = 24;
   if (currentChartRange === "1m") windowSize = 24 * 30;
+  if (currentChartRange === "1y") windowSize = 24 * 365;
   if (currentChartRange === "ytd") windowSize = 24 * 90; // Approx 3 months
 
   // Create mock history based on range
   const history = Array.from({ length: 24 }, (_, i) => {
     let base = 0.5;
     if (currentChartRange === "1m") base = 0.4;
+    if (currentChartRange === "1y") base = 0.35;
     if (currentChartRange === "ytd") base = 0.3;
     // Add offset modification to make pages look different
     const pointRisk = Math.max(0, Math.min(1, base + Math.random() * 0.4 + (chartOffset * 0.05)));
@@ -291,7 +293,8 @@ document.querySelectorAll(".time-btn").forEach(btn => {
     e.target.classList.add("active");
     currentChartRange = e.target.dataset.range;
     chartOffset = 0; // Reset offset on range change
-    document.getElementById("chart-title-text").textContent = currentChartRange === "1d" ? "24h Risk History" : currentChartRange === "1m" ? "1M Risk History" : "YTD Risk History";
+    const titles = { "1d": "24h Risk History", "1m": "1M Risk History", "1y": "1Y Risk History", "ytd": "YTD Risk History" };
+    document.getElementById("chart-title-text").textContent = titles[currentChartRange] || "Risk History";
     document.getElementById("chart-next").disabled = true;
     updateRiskChart();
   });
