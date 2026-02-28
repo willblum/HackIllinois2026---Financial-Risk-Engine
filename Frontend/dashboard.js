@@ -1039,3 +1039,48 @@ openNarrativeModal = async function (id) {
     }
   } catch (e) { console.error("Drilldown enhancement failed", e); }
 };
+
+// --- Theme Toggle ---
+document.addEventListener("DOMContentLoaded", () => {
+  const themeBtn = document.getElementById("theme-toggle");
+  if (!themeBtn) return;
+  const icon = themeBtn.querySelector("i");
+  const body = document.body;
+
+  // Check saved theme
+  const savedTheme = localStorage.getItem("nexus-theme");
+  if (savedTheme === "light") {
+    body.classList.replace("dark-theme", "light-theme");
+    icon.className = "ph-bold ph-sun";
+  }
+
+  themeBtn.addEventListener("click", () => {
+    if (body.classList.contains("dark-theme")) {
+      body.classList.replace("dark-theme", "light-theme");
+      icon.className = "ph-bold ph-sun";
+      localStorage.setItem("nexus-theme", "light");
+    } else {
+      body.classList.replace("light-theme", "dark-theme");
+      icon.className = "ph-bold ph-moon";
+      localStorage.setItem("nexus-theme", "dark");
+    }
+    // Update chart text colors smoothly
+    if (riskChart) {
+      const isLight = body.classList.contains("light-theme");
+      const gridColor = isLight ? "rgba(0,0,0,0.05)" : "rgba(255,255,255,0.05)";
+      const tickColor = isLight ? "#94a3b8" : "#8b949e";
+      riskChart.options.scales.x.ticks.color = tickColor;
+      riskChart.options.scales.y.ticks.color = tickColor;
+      riskChart.options.scales.y.grid.color = gridColor;
+      riskChart.update();
+    }
+    if (modalChart) {
+      const isLight = body.classList.contains("light-theme");
+      const gridColor = isLight ? "rgba(0,0,0,0.05)" : "rgba(255,255,255,0.05)";
+      const tickColor = isLight ? "#94a3b8" : "#8b949e";
+      modalChart.options.scales.y.ticks.color = tickColor;
+      modalChart.options.scales.y.grid.color = gridColor;
+      modalChart.update();
+    }
+  });
+});

@@ -41,6 +41,139 @@
   padding: 0;
 }
 
+/* ── Light Theme Overrides ── */
+body.light-theme {
+  --bg-color: #f1f5f9;
+  /* Softer, slightly warmer gray background */
+  --panel-bg: rgba(255, 255, 255, 0.92);
+  /* Higher opacity for cleaner cards */
+  --panel-border: rgba(15, 23, 42, 0.08);
+  /* Darker, crisper border */
+  --panel-glow: rgba(0, 0, 0, 0.02);
+
+  --text-primary: #1e293b;
+  /* Softer slate text instead of pure black */
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+
+  --accent-cyan: #0284c7;
+  /* Darker cyan/blue for contrast */
+  --accent-blue: #3b82f6;
+  --accent-purple: #8b5cf6;
+
+  /* Retain very soft glow in light mode for a premium feel */
+  & .ambient-glow {
+    opacity: 0.15;
+  }
+
+  & .risk-fill-glow {
+    opacity: 0;
+  }
+
+  & .status-pill {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+  }
+
+  & .glass-panel {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(16px);
+  }
+
+  & th {
+    background: #f8fafc !important;
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+  }
+
+  & td {
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  & tr:hover {
+    background: #f8fafc !important;
+  }
+
+  & #main-header {
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  & .card-header h2 {
+    color: #0f172a;
+  }
+
+  & .stat-label {
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  & .stat-val {
+    color: var(--text-primary);
+  }
+
+  & .stat-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+  }
+
+  & .chart-insights {
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
+  }
+
+  & .insight-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: var(--text-primary);
+  }
+
+  & .insight-time {
+    color: var(--text-muted) !important;
+  }
+
+  & .dropdown-option {
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  & .dropdown-option:hover {
+    background: #e2e8f0;
+  }
+
+  & .clock-card {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  & .logo-mark {
+    color: #0284c7;
+    filter: none;
+    text-shadow: none !important;
+  }
+
+  & .logo-mark span {
+    text-shadow: none !important;
+  }
+
+  & .modal-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+  }
+
+  & .modal-headlines li {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 3px solid var(--accent-blue);
+  }
+
+  & .modal-close {
+    background: #e2e8f0;
+    color: var(--text-primary);
+  }
+
+  & .modal-close:hover {
+    background: #cbd5e1;
+  }
+}
+
 ::selection {
   background: rgba(0, 240, 255, 0.3);
   color: #fff;
@@ -1468,4 +1601,25 @@ textarea {
 .momentum-item .data-number {
   font-size: 1.1rem;
   margin-top: 0.2rem;
+}
+
+.theme-btn {
+  margin-right: 15px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.theme-btn:hover {
+  color: var(--accent-cyan);
+}
+
+/* Bright yellow sun for light mode! */
+body.light-theme .theme-btn {
+  color: #f59e0b;
+}
+
+body.light-theme .theme-btn:hover {
+  color: #d97706;
 }
