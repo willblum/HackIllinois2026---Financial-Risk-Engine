@@ -360,6 +360,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  flex: 1;
 }
 
 .logo-mark {
@@ -392,7 +393,9 @@ h3 {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  justify-content: flex-end;
+  gap: 1rem;
+  flex: 1;
 }
 
 .status-pill {
@@ -1504,7 +1507,8 @@ textarea {
 .header-tabs {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  justify-content: center;
+  gap: 1.8rem;
 }
 
 .tab-divider {
@@ -1516,7 +1520,8 @@ textarea {
   border: none;
   border-bottom: 2px solid transparent;
   color: var(--text-muted);
-  padding: 0.4rem 1.1rem 0.35rem;
+  padding: 0.4rem 0 0.35rem;
+  /* Remove horizontal padding since gap is 1.5rem */
   font-family: var(--font-mono);
   font-weight: 500;
   font-size: 0.75rem;

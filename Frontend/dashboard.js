@@ -4001,9 +4001,9 @@ function renderCorrelationMatrix(graphData) {
       ctx.fill();
 
       // Show value text in cell if cells are large enough and val is meaningful
-      if (cellW > 35 && cellH > 22 && val > 0.05) {
+      if (cellW > 35 && cellH > 22 && val >= 0.20) {
         ctx.fillStyle = val > 0.6 ? "#fff" : (isLight ? "#334155" : "rgba(255,255,255,0.85)");
-        ctx.font = `600 ${Math.min(11, cellW * 0.35)}px var(--font-mono, monospace)`;
+        ctx.font = `600 ${Math.min(10, cellW * 0.3)}px var(--font-mono, monospace)`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(val.toFixed(2), x + cellW / 2, y + cellH / 2);
@@ -4024,7 +4024,7 @@ function renderCorrelationMatrix(graphData) {
 function _corrColor(val, isLight) {
   // Dark: low=dark blue → cyan → amber → red=high
   // 0.0 = deep blue, 0.5 = cyan, 0.75 = amber, 1.0 = red
-  if (val <= 0) return isLight ? "rgba(226, 232, 240, 0.4)" : "rgba(30, 58, 95, 0.25)";
+  if (val <= 0) return isLight ? "rgba(0, 0, 0, 0.03)" : "rgba(255, 255, 255, 0.02)";
   if (val >= 1) return "#ef4444";
   if (val < 0.35) {
     const t = val / 0.35;

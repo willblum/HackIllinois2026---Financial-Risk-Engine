@@ -52,36 +52,36 @@
       </div>
       <div class="header-titles">
         <h1>NEXUS <span class="fw-light">Risk Engine</span></h1>
-        <span class="subtitle">HackIllinois 2026 // Real-time Narrative Tracker</span>
+        <span class="subtitle">HackIllinois 2026</span>
       </div>
     </div>
+
     <div class="header-tabs">
-      <button class="tab-btn active" data-target="dashboard-tab"><i class="ph ph-squares-four"></i> Risk
-        Dashboard</button>
-      <span class="tab-divider">|</span>
+      <button class="tab-btn active" data-target="dashboard-tab"><i class="ph ph-squares-four"></i> Dashboard</button>
       <button class="tab-btn" data-target="stocks-tab"><i class="ph ph-trend-up"></i> Global Equities</button>
-      <span class="tab-divider">|</span>
       <button class="tab-btn" data-target="ticker-tab"><i class="ph ph-pulse"></i> Narrative Ticker</button>
-      <span class="tab-divider">|</span>
       <button class="tab-btn" data-target="portfolio-tab"><i class="ph ph-briefcase"></i> Portfolio Risk</button>
     </div>
+
     <div class="header-right">
-      <button id="theme-toggle" class="icon-btn theme-btn" title="Toggle Theme">
-        <i class="ph-bold ph-moon"></i>
-      </button>
-      <div class="status-pill mock-mode-pill" id="mock-badge" style="display:none;">
-        <i class="ph-fill ph-flask"></i> MOCK DATA
-      </div>
-      <div class="status-pill live-pill">
+      <div class="status-pill live-pill" style="margin-right: 0.5rem;">
         <div class="pulse-dot"></div> <span id="conn-status">LIVE</span>
       </div>
-      <div id="last-updated" class="last-updated"><i class="ph ph-clock"></i> —</div>
+      <div class="status-pill mock-mode-pill" id="mock-badge" style="display:none; margin-right: 0.5rem;">
+        <i class="ph-fill ph-flask"></i> MOCK
+      </div>
+      <div id="last-updated" class="last-updated" style="margin-right: 1rem;"><i class="ph ph-clock"></i> —</div>
+
+      <button id="theme-toggle" class="icon-btn theme-btn" title="Toggle Theme" style="margin-right: 0.5rem;">
+        <i class="ph-bold ph-moon"></i>
+      </button>
+
       <div id="user-avatar" class="user-avatar" title="Account">
         <img id="user-avatar-img" src="" alt="" style="display:none" />
         <span id="user-avatar-initial"></span>
       </div>
-      <button id="signout-btn" class="icon-btn" title="Sign Out" onclick="nexusSignOut()" style="font-size:0.9rem"><i
-          class="ph ph-sign-out"></i></button>
+      <button id="signout-btn" class="icon-btn" title="Sign Out" onclick="nexusSignOut()"
+        style="font-size:0.9rem; margin-left: 0.25rem;"><i class="ph ph-sign-out"></i></button>
     </div>
   </header>
 
