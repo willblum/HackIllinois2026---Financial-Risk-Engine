@@ -192,6 +192,63 @@ body.light-theme {
     background: #cbd5e1;
     color: var(--text-primary);
   }
+
+  /* Time range toggle buttons (1D, 2M, 1Y, YTD) */
+  & .time-range-toggles {
+    background: rgba(241, 245, 249, 0.9);
+    border-color: #e2e8f0;
+  }
+
+  & .time-btn {
+    color: #57534e;
+  }
+
+  & .time-btn.active {
+    background: rgba(180, 83, 9, 0.15);
+    color: #b45309;
+  }
+
+  /* Risk value number + label */
+  & #risk-value {
+    background: linear-gradient(180deg, #1c1917 0%, #57534e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+  }
+
+  & .risk-label {
+    color: #44403c;
+    font-weight: 600;
+  }
+
+  /* Sort-by dropdown header */
+  & .dropdown-header {
+    background: rgba(241, 245, 249, 0.9);
+    border-color: #e2e8f0;
+    color: var(--text-primary);
+  }
+
+  & .dropdown-list {
+    background: rgba(255, 255, 255, 0.98);
+    border-color: #e2e8f0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  & .dropdown-option {
+    color: #57534e;
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+  }
+
+  & .dropdown-option:hover {
+    background: rgba(180, 83, 9, 0.08);
+    color: var(--text-primary);
+  }
+
+  & .dropdown-option.selected {
+    color: #b45309;
+    background: rgba(180, 83, 9, 0.06);
+  }
 }
 
 ::selection {
