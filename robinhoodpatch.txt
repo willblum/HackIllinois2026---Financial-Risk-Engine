@@ -1,0 +1,47 @@
+﻿commit c388ba24eb918b246b3b12465660eb95e84fc477
+Author: krish <krishp7889@gmail.com>
+Date:   Sat Feb 28 19:02:03 2026 -0600
+
+    Removed robinhood login per user request
+
+diff --git a/Frontend/login.html b/Frontend/login.html
+index 9cc25ef..17fbd50 100644
+--- a/Frontend/login.html
++++ b/Frontend/login.html
+@@ -93,14 +93,6 @@
+                         <span>Continue with Google</span>
+                     </button>
+ 
+-                    <button class="signin-btn signin-btn-robinhood" onclick="robinhoodSignIn()">
+-                        <svg class="signin-btn-icon" viewBox="0 0 24 24" width="20" height="20">
+-                            <path fill="#00C805"
+-                                d="M4.14 14.42l2.12-8.28c.3-1.18 1.04-2.1 2.1-2.57.56-.25 1.45-.53 2.78-.53 1.84 0 3.02.56 3.02.56l-1.1 4.33h4.13c1.62 0 2.84 1.48 2.5 3.06l-1.33 6.15c-.23 1.06-1.17 1.82-2.26 1.82H7.28c-.73 0-1.42-.3-1.92-.83l-1.22-1.34c-.6-.66-.6-1.66 0-2.37z" />
+-                        </svg>
+-                        <span>Continue with Robinhood</span>
+-                    </button>
+-
+                     <div class="login-divider">
+                         <span>or</span>
+                     </div>
+@@ -159,21 +151,6 @@
+             window.location.href = '/index.html';
+         }
+ 
+-        // Robinhood Sign-In (simulated ΓÇö shows the flow)
+-        function robinhoodSignIn() {
+-            const user = {
+-                name: 'Robinhood User',
+-                email: 'investor@robinhood.com',
+-                picture: null,
+-                given_name: 'Investor',
+-                provider: 'robinhood',
+-                loggedInAt: new Date().toISOString()
+-            };
+-
+-            localStorage.setItem('nexus_user', JSON.stringify(user));
+-            window.location.href = '/index.html';
+-        }
+-
+         // Demo sign-in
+         function demoSignIn() {
+             const user = {
